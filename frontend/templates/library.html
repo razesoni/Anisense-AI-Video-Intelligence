@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Library — AniSense AI{% endblock %}
+{% block eyebrow %}Media Library{% endblock %}
+{% block page_title %}Your Anime Library{% endblock %}
+{% block content %}
+<div class="library-toolbar">
+  <div class="search-field"><span>⌕</span><input id="librarySearch" placeholder="Search your videos..."></div>
+  <select><option>All statuses</option><option>AI Ready</option><option>Processing</option></select>
+  <select><option>Recently added</option><option>Title A–Z</option><option>Duration</option></select>
+  <button class="icon-btn view-toggle active">▦</button><a class="btn primary" href="{{ url_for('upload') }}">＋ Upload</a>
+</div>
+<section class="video-grid" id="libraryGrid">
+{% for video in videos %}
+<article class="video-card library-item" data-title="{{ video.title|lower }}">
+  <a class="thumbnail thumb-{{ video.thumbnail }}" href="{{ url_for('video', video_id=video.id) }}"><span class="thumbnail-art">{{ "✦" if loop.index % 2 else "◈" }}</span><span class="play-overlay">▶</span><span class="duration">{{ video.duration }}</span></a>
+  <div class="video-info"><div><h3>{{ video.title }}</h3><p>{{ video.episode }}</p></div><span class="status {{ 'ready' if video.status == 'AI Ready' else 'processing' }}">{{ video.status }}</span></div>
+  <div class="video-meta"><span>⌁ {{ video.segments }} segments</span><span>{% if video.summary %}✦ AI Summary{% else %}Processing{% endif %}</span></div>
+  <div class="card-actions"><a href="{{ url_for('video', video_id=video.id) }}">Watch</a><a href="{{ url_for('summary', video_id=video.id) }}">Summary</a><a href="{{ url_for('search') }}">Search</a><button>•••</button></div>
+</article>
+{% endfor %}
+</section>
+<div id="emptyLibrary" class="empty-state hidden"><div>▣</div><h3>No videos found</h3><p>Try another search or upload your first anime video.</p><a class="btn primary" href="{{ url_for('upload') }}">Upload Video</a></div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>{% endblock %}

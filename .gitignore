@@ -1,0 +1,26 @@
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Virtual environment
+.venv/
+venv/
+
+# Generated data
+data/raw_videos/*
+data/audio/*
+data/transcripts/*
+data/embeddings/*
+data/summaries/*
+
+# Database
+*.db
+
+# Logs
+logs/
+*.log
+
+# Python
+__pycache__/
+*.pyc

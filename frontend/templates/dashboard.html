@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — AniSense AI{% endblock %}
+{% block eyebrow %}Overview{% endblock %}
+{% block page_title %}Anime Video Intelligence{% endblock %}
+{% block content %}
+<section class="hero dashboard-hero">
+  <div>
+    <span class="pill soft">✦ Your AI workspace</span>
+    <h2>Understand every scene.<br><em>Search every moment.</em></h2>
+    <p>Upload anime videos, generate AI-powered summaries, and instantly find the exact moments you're looking for.</p>
+    <div class="hero-actions">
+      <a class="btn primary" href="{{ url_for('upload') }}">＋ Upload Video</a>
+      <a class="btn ghost" href="{{ url_for('library') }}">Explore Library</a>
+    </div>
+  </div>
+  <div class="hero-orbit"><div>✦</div><span></span><span></span><span></span></div>
+</section>
+
+<section class="stats-grid">
+  <article class="stat-card"><div class="stat-icon violet">▣</div><span>Videos Processed</span><strong>24</strong><small class="positive">↗ +4 this week</small></article>
+  <article class="stat-card"><div class="stat-icon blue">◷</div><span>Total Duration</span><strong>18h 42m</strong><small>Across your library</small></article>
+  <article class="stat-card"><div class="stat-icon pink">✦</div><span>AI Summaries</span><strong>24</strong><small>100% coverage</small></article>
+  <article class="stat-card"><div class="stat-icon green">⌁</div><span>Indexed Segments</span><strong>3,842</strong><small class="positive">Ready to search</small></article>
+</section>
+
+<div class="section-row">
+  <div class="section-heading"><span class="section-kicker">Quick start</span><h2>What do you want to explore?</h2></div>
+</div>
+<section class="quick-grid">
+  <a class="quick-card" href="{{ url_for('upload') }}"><span>＋</span><div><b>Upload a new video</b><small>Start the AI processing pipeline</small></div><i>→</i></a>
+  <a class="quick-card featured" href="{{ url_for('search') }}"><span>⌕</span><div><b>Search your library</b><small>Ask a question about any scene</small></div><i>→</i></a>
+  <a class="quick-card" href="{{ url_for('library') }}"><span>▣</span><div><b>Browse library</b><small>Watch, summarize and explore</small></div><i>→</i></a>
+</section>
+
+<div class="section-row">
+  <div class="section-heading"><span class="section-kicker">Recently processed</span><h2>Your anime library</h2></div>
+  <a class="text-link" href="{{ url_for('library') }}">View all →</a>
+</div>
+<section class="video-grid compact">
+  {% for video in videos[:4] %}
+  <article class="video-card">
+    <a class="thumbnail thumb-{{ video.thumbnail }}" href="{{ url_for('video', video_id=video.id) }}">
+      <span class="thumbnail-art">{{ "✦" if loop.index % 2 else "◈" }}</span>
+      <span class="play-overlay">▶</span><span class="duration">{{ video.duration }}</span>
+    </a>
+    <div class="video-info"><div><h3>{{ video.title }}</h3><p>{{ video.episode }}</p></div><span class="status {{ 'ready' if video.status == 'AI Ready' else 'processing' }}">{{ video.status }}</span></div>
+    <div class="video-meta"><span>⌁ {{ video.segments }} segments</span>{% if video.summary %}<span>✦ Summary</span>{% endif %}</div>
+  </article>
+  {% endfor %}
+</section>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}AniSense AI — Anime Video Intelligence{% endblock %}
+{% block shell %}
+<div class="landing">
+  <header class="landing-nav">
+    <a class="brand" href="{{ url_for('index') }}">
+      <span class="brand-mark">✦</span>
+      <span><strong>AniSense AI</strong><small>AI Video Intelligence</small></span>
+    </a>
+    <div class="landing-links">
+      <a href="#features">Features</a>
+      <a href="#workflow">How it works</a>
+      <a href="{{ url_for('dashboard') }}">Demo Dashboard</a>
+    </div>
+    <a class="btn primary" href="{{ url_for('dashboard') }}">Start Analyzing <span>→</span></a>
+  </header>
+
+  <section class="hero landing-hero">
+    <div class="hero-copy">
+      <span class="pill"><i></i> AI-powered video intelligence</span>
+      <h1>Turn anime videos into <em>searchable knowledge.</em></h1>
+      <p>AniSense AI transforms videos into searchable transcripts, intelligent summaries, key moments, and AI-powered insights.</p>
+      <div class="hero-actions">
+        <a class="btn primary large" href="{{ url_for('dashboard') }}">Start Analyzing <span>→</span></a>
+        <a class="btn ghost large" href="{{ url_for('search') }}">Explore Demo</a>
+      </div>
+      <div class="trust-row"><span>✦ Faster-Whisper</span><span>⌁ Semantic Search</span><span>◈ AI Summaries</span></div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-glow"></div>
+      <div class="dashboard-mock">
+        <div class="mock-sidebar"></div>
+        <div class="mock-content">
+          <div class="mock-top"><span></span><span></span><span></span></div>
+          <div class="mock-video">
+            <div class="play-circle">▶</div>
+            <div class="mock-time">12:43 / 24:13</div>
+          </div>
+          <div class="mock-grid">
+            <div class="mock-card"><small>AI SUMMARY</small><b>Commander reveals the hidden truth...</b><i></i><i></i><i></i></div>
+            <div class="mock-card search-mock"><small>SEMANTIC MATCH</small><strong>94%</strong><span>Wall origins and humanity</span></div>
+          </div>
+        </div>
+      </div>
+      <span class="petal p1">✦</span><span class="petal p2">✧</span><span class="petal p3">·</span>
+    </div>
+  </section>
+
+  <section class="feature-strip" id="features">
+    <div><span>⌕</span><h3>Search Every Moment</h3><p>Ask natural-language questions and jump directly to the answer.</p></div>
+    <div><span>✦</span><h3>Understand Episodes</h3><p>Generate concise summaries, key events, topics and insights.</p></div>
+    <div><span>◷</span><h3>Navigate by Timestamp</h3><p>Move from transcript to the exact scene in seconds.</p></div>
+  </section>
+
+  <section class="landing-section" id="workflow">
+    <div class="section-heading centered">
+      <span class="section-kicker">From video to knowledge</span>
+      <h2>A complete intelligence layer for your anime library.</h2>
+      <p>Upload once. Process automatically. Search and understand forever.</p>
+    </div>
+    <div class="workflow">
+      <div><span>01</span><b>Upload</b><small>Video validation</small></div>
+      <div><span>02</span><b>Transcribe</b><small>Faster-Whisper</small></div>
+      <div><span>03</span><b>Understand</b><small>AI summary</small></div>
+      <div><span>04</span><b>Index</b><small>Vector search</small></div>
+      <div><span>05</span><b>Explore</b><small>Search & watch</small></div>
+    </div>
+  </section>
+
+  <footer class="landing-footer">
+    <div class="brand"><span class="brand-mark">✦</span><span><strong>AniSense AI</strong><small>AI Video Intelligence</small></span></div>
+    <span>Built as a portfolio-ready AI product experience.</span>
+  </footer>
+</div>
+{% endblock %}

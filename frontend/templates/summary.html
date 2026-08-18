@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}AI Summary — {{ video.title }}{% endblock %}
+{% block eyebrow %}AI Summary{% endblock %}
+{% block page_title %}Episode Intelligence{% endblock %}
+{% block content %}
+<div class="summary-header-card"><div><span class="section-kicker">Generated intelligence</span><h2>{{ video.title }} <span>{{ video.episode }}</span></h2><p>{{ video.duration }} · Generated just now</p></div><a class="btn ghost" href="{{ url_for('video', video_id=video.id) }}">← Back to Video</a></div>
+
+<section class="executive-card"><div class="section-heading"><span class="section-kicker">Executive Summary</span><h2>What happened?</h2></div><p>The episode follows a tense sequence of events as the main characters uncover new information, face a growing conflict, and make a difficult decision. The discovery changes their understanding of the world and sets up the next major confrontation.</p></section>
+
+<div class="summary-two-col">
+  <section class="content-card"><div class="section-heading"><span class="section-kicker">Timeline</span><h2>Key Events</h2></div><div class="event-timeline">{% for e in [("00:03","Introduction"),("00:08","Conflict begins"),("00:14","Major revelation"),("00:19","Final confrontation")] %}<div class="event"><span>{{ e[0] }}</span><div><b>{{ e[1] }}</b><p>Important story beat identified by the AI summary pipeline.</p></div></div>{% endfor %}</div></section>
+  <section class="content-card"><div class="section-heading"><span class="section-kicker">People & themes</span><h2>Characters</h2></div><div class="character-grid"><div><div class="character-avatar">A</div><b>Armin</b><span>Strategist · 18 mentions</span></div><div><div class="character-avatar">M</div><b>Mikasa</b><span>Protector · 15 mentions</span></div><div><div class="character-avatar">E</div><b>Eren</b><span>Protagonist · 27 mentions</span></div></div><h4>Topics</h4><div class="tag-list"><span>Battle</span><span>Friendship</span><span>Mystery</span><span>Conflict</span></div></section>
+</div>
+
+<section class="insights-card"><div class="section-heading"><span class="section-kicker">Model interpretation</span><h2>AI Insights</h2></div><div class="insight-grid"><div><span>◈</span><b>Main theme</b><p>Trust and survival in an uncertain world.</p></div><div><span>✦</span><b>Important events</b><p>A hidden truth is revealed and changes the stakes.</p></div><div><span>♢</span><b>Character development</b><p>The protagonist begins questioning previous assumptions.</p></div><div><span>◌</span><b>Emotional tone</b><p>Tense, mysterious and cautiously hopeful.</p></div><div><span>⚔</span><b>Major conflicts</b><p>Internal doubt meets an external threat.</p></div></div></section>
+{% endblock %}

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}AniSense AI{% endblock %}</title>
+  <meta name="description" content="AI-powered anime video intelligence and semantic search.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  {% block head %}{% endblock %}
+</head>
+<body class="anime-app">
+  {% block shell %}
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="{{ url_for('dashboard') }}">
+        <span class="brand-mark">✦</span>
+        <span>
+          <strong>AniSense AI</strong>
+          <small>AI Video Intelligence</small>
+        </span>
+      </a>
+
+      <nav class="nav-section" aria-label="Primary navigation">
+        <span class="nav-label">Workspace</span>
+        <a class="nav-link {% if request.path == '/dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}">⌂ <span>Dashboard</span></a>
+        <a class="nav-link {% if request.path == '/upload' %}active{% endif %}" href="{{ url_for('upload') }}">🎬 <span>Videos</span></a>
+        <a class="nav-link {% if request.path == '/search' %}active{% endif %}" href="{{ url_for('search') }}">⌕ <span>Intelligent Search</span></a>
+        <a class="nav-link {% if '/summary/' in request.path %}active{% endif %}" href="{{ url_for('summary', video_id=1) }}">✦ <span>AI Summaries</span></a>
+        <a class="nav-link {% if request.path == '/library' %}active{% endif %}" href="{{ url_for('library') }}">▣ <span>Library</span></a>
+        <a class="nav-link" href="{{ url_for('dashboard') }}">◔ <span>Analytics</span></a>
+      </nav>
+
+      <nav class="nav-section secondary" aria-label="Secondary navigation">
+        <span class="nav-label">More</span>
+        <a class="nav-link" href="{{ url_for('library') }}">◷ <span>Recent Videos</span></a>
+        <a class="nav-link" href="#">⚙ <span>Settings</span></a>
+        <a class="nav-link" href="#">? <span>Help & Documentation</span></a>
+      </nav>
+
+      <div class="profile-card">
+        <div class="avatar">AK</div>
+        <div>
+          <strong>Akash Kumar</strong>
+          <span>Data Science Project</span>
+        </div>
+        <button class="icon-btn" aria-label="Profile options">•••</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu icon-btn" id="menuToggle" aria-label="Open navigation">☰</button>
+          <div>
+            <p class="eyebrow">{% block eyebrow %}AI Video Intelligence{% endblock %}</p>
+            <h1>{% block page_title %}Anime Video Intelligence{% endblock %}</h1>
+          </div>
+        </div>
+        <div class="top-actions">
+          <button class="search-shortcut" data-open-search aria-label="Open global search">
+            <span>⌕</span> Search <kbd>Ctrl K</kbd>
+          </button>
+          <button class="icon-btn notification" aria-label="Notifications">♢<i></i></button>
+          <button class="icon-btn theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">☾</button>
+          <div class="avatar small">AK</div>
+        </div>
+      </header>
+
+      <div class="anime-atmosphere" aria-hidden="true"></div>
+      <div class="page">
+        {% block content %}{% endblock %}
+      </div>
+    </main>
+  </div>
+
+  <nav class="mobile-nav">
+    <a href="{{ url_for('dashboard') }}">⌂<span>Home</span></a>
+    <a href="{{ url_for('library') }}">▣<span>Library</span></a>
+    <a href="{{ url_for('search') }}">⌕<span>Search</span></a>
+    <a href="{{ url_for('upload') }}">＋<span>Upload</span></a>
+  </nav>
+
+  <div class="global-search" id="globalSearch" aria-hidden="true">
+    <div class="search-modal">
+      <button class="modal-close icon-btn" data-close-search>×</button>
+      <span class="modal-kicker">AI semantic search</span>
+      <h2>Search your anime knowledge</h2>
+      <form action="{{ url_for('search') }}" class="global-search-form">
+        <input name="q" autofocus placeholder="Try “When does the protagonist discover the secret?”">
+        <button class="btn primary">Search</button>
+      </form>
+      <div class="suggestions">
+        <button>Find the first major battle</button>
+        <button>When does the mystery get revealed?</button>
+        <button>Show emotional scenes</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-stack" id="toastStack"></div>
+  {% endblock %}
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
