@@ -9,7 +9,7 @@ venv/
 
 # Generated data
 data/raw_videos/*
-data/audio/*
+data/audio_extracted/*
 data/transcripts/*
 data/embeddings/*
 data/summaries/*
