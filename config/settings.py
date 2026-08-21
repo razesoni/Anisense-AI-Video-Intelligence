@@ -10,6 +10,10 @@ AUDIO_DIR = DATA_DIR / "audio_extracted"
 SUMMARY_DIR = DATA_DIR / "summaries"
 TRANSCRIPTS_DIR = DATA_DIR / "transcripts"
 VECTOR_STORE_DIR = DATA_DIR / "vector_store"
+RAW_TRANSCRIPTS = TRANSCRIPTS_DIR / "raw"
+CLEANED_TRANSCRIPTS = TRANSCRIPTS_DIR / "cleaned"
+SEGMENTED_TRANSCRIPTS = TRANSCRIPTS_DIR / "segments"
+NORMALIZED_TRANSCRIPTS = TRANSCRIPTS_DIR / "normalized"
 
 
 class Settings(BaseSettings):

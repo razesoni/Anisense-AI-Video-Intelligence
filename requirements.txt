@@ -5,3 +5,5 @@ pydantic-settings==2.15.0
 python-dotenv==1.2.3
 typing-extensions==4.16.0
 typing-inspection==0.4.4
+spacy
+faster-whisper

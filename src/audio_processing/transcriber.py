@@ -1,6 +1,11 @@
+import sys
+from pathlib import Path
+
+# Add project root to sys.path
+sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
+
 from faster_whisper import WhisperModel
 from config.settings import settings, AUDIO_DIR, TRANSCRIPTS_DIR
-from pathlib import Path
 import json
 
 class AudioTranscriber:
