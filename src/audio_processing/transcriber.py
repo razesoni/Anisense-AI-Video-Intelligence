@@ -1,11 +1,5 @@
-import sys
 from pathlib import Path
-
-# Add project root to sys.path
-sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
-
 from faster_whisper import WhisperModel
-from config.settings import settings, AUDIO_DIR, TRANSCRIPTS_DIR
 import json
 
 class AudioTranscriber:
@@ -15,11 +9,13 @@ class AudioTranscriber:
             device=settings.whisper_device,
             compute_type=settings.whisper_compute_type
         )
-        self.transcripts_dir = Path(TRANSCRIPTS_DIR)
+        self.transcripts_dir = Path(transcript_dir)
 
     def audio_transcribe(self, audio_path):
-        audio_dir = Path(audio_path)
-        audio_files = [audio for audio in audio_dir.iterdir() if audio.is_file()]
+        audio_path = Path(audio_path)
+        audio_files = [audio_path] if audio_path.is_file() else [
+            file_path for file_path in audio_path.iterdir() if file_path.is_file()
+        ]
 
         self.transcripts_dir.mkdir(parents=True, exist_ok=True)
         for audio_file in audio_files:
@@ -41,10 +37,6 @@ class AudioTranscriber:
             with open(str(transcript_file), "w", encoding="utf-8") as f:
                 json.dump(transcript, f, ensure_ascii=False, indent=2)
             print(f"Transcription saved: {transcript_file}")
-
-if __name__ == "__main__":
-    transcriber = AudioTranscriber(settings, TRANSCRIPTS_DIR)
-    transcriber.audio_transcribe(AUDIO_DIR)
 
 
 

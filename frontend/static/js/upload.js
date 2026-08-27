@@ -1,59 +1,105 @@
-const fileInput = document.querySelector("#videoFile");
-const browseBtn = document.querySelector("#browseBtn");
-const uploadZone = document.querySelector(".upload-zone");
-const preview = document.querySelector("#filePreview");
-const form = document.querySelector("#uploadForm");
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('uploadForm');
+  const fileInput = document.getElementById('videoFile');
+  const browseBtn = document.getElementById('browseBtn');
+  const titleInput = document.getElementById('animeTitle');
+  const seasonInput = document.getElementById('animeSeason');
+  const episodeInput = document.getElementById('animeEpisode');
+  const previewText = document.getElementById('targetFilenamePreview');
+  const progress = document.getElementById('uploadProgress');
+  const progressText = document.getElementById('uploadProgressText');
+  const submitButton = form.querySelector('.upload-submit');
+  const pipelineSteps = document.querySelectorAll('.pipeline-step');
 
-browseBtn?.addEventListener("click", () => fileInput.click());
+  browseBtn.addEventListener('click', () => fileInput.click());
 
-function showFile(file) {
-  if (!file) return;
-  const size = (file.size / (1024 * 1024)).toFixed(1);
-  preview.classList.remove("hidden");
-  preview.innerHTML = `<div class="file-icon">▣</div><div><strong>${file.name}</strong><span>${size} MB · ${file.type || "video file"}</span></div><button type="button" id="removeFile">×</button>`;
-  document.querySelector("#removeFile").onclick = () => {
-    fileInput.value = "";
-    preview.classList.add("hidden");
-    preview.innerHTML = "";
-  };
-}
-fileInput?.addEventListener("change", e => showFile(e.target.files[0]));
+  // Function to compute and show canonical filename preview
+  function updatePreview() {
+    const rawTitle = titleInput.value.trim();
+    const season = seasonInput.value || '1';
+    const episode = String(episodeInput.value || '1').padStart(2, '0');
 
-["dragenter","dragover"].forEach(type => uploadZone?.addEventListener(type, e => {
-  e.preventDefault(); uploadZone.classList.add("dragging");
-}));
-["dragleave","drop"].forEach(type => uploadZone?.addEventListener(type, e => {
-  e.preventDefault(); uploadZone.classList.remove("dragging");
-}));
-uploadZone?.addEventListener("drop", e => {
-  const file = e.dataTransfer.files[0];
-  if (file && file.type.startsWith("video/")) {
-    const dt = new DataTransfer(); dt.items.add(file); fileInput.files = dt.files; showFile(file);
-  } else toast("Please choose a supported video file.", "error");
-});
+    if (rawTitle && fileInput.files[0]) {
+      const ext = fileInput.files[0].name.split('.').pop();
+      const cleanTitle = rawTitle.replace(/[\s_]+/g, '-').replace(/[^a-zA-Z0-9\-]/g, '');
+      const formatted = `${cleanTitle}_S${season}_Ep-${episode}.${ext}`;
+      previewText.textContent = `Canonical Output: ${formatted}`;
+    } else {
+      previewText.textContent = '';
+    }
+  }
 
-form?.addEventListener("submit", async e => {
-  e.preventDefault();
-  const file = fileInput.files[0];
-  if (!file) return toast("Choose a video before processing.", "error");
-  if (file.size > 2 * 1024 * 1024 * 1024) return toast("Maximum file size is 2 GB.", "error");
-  const button = form.querySelector(".upload-submit");
-  button.disabled = true;
-  button.textContent = "Uploading…";
-  const data = new FormData(form);
-  try {
-    const res = await fetch("/api/upload", {method:"POST", body:data});
-    const json = await res.json();
-    if (!json.success) throw new Error(json.message);
-    button.textContent = "Processing started ✓";
-    toast("Video uploaded successfully");
-    setTimeout(() => {
-      document.querySelectorAll(".pipeline-step").forEach((step, i) => {
-        if (i < 2) { step.classList.add("done"); step.querySelector(".step-state").textContent = "Completed"; }
+  titleInput.addEventListener('input', updatePreview);
+  seasonInput.addEventListener('input', updatePreview);
+  episodeInput.addEventListener('input', updatePreview);
+  fileInput.addEventListener('change', updatePreview);
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (!fileInput.files[0]) {
+      alert('Please select a video file.');
+      return;
+    }
+
+    const formData = new FormData(form);
+    submitButton.disabled = true;
+    progress.classList.remove('hidden');
+    progressText.textContent = 'Uploading video and preparing ingestion...';
+
+    try {
+      const response = await fetch('/api/v1/ingestion/upload', {
+        method: 'POST',
+        body: formData
       });
-    }, 500);
-  } catch (err) {
-    toast(err.message || "Unable to process video", "error");
-    button.disabled = false; button.textContent = "Process Video →";
+
+      const data = await response.json();
+      if (response.ok) {
+        await pollIngestion(data.job_id);
+      } else {
+        alert(data.detail || data.message || 'Upload failed.');
+        resetUploadState();
+      }
+    } catch (err) {
+      alert(`Upload error: ${err.message}`);
+      resetUploadState();
+    }
+  });
+
+  async function pollIngestion(jobId) {
+    const poll = async () => {
+      const response = await fetch(`/api/v1/ingestion/status/${jobId}`);
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.detail || 'Could not read ingestion status.');
+      updatePipeline(data);
+      if (data.status === 'completed') {
+        progressText.textContent = 'Ingestion complete. Opening dashboard...';
+        window.location.href = `/video/${encodeURIComponent(data.result.video_id)}`;
+        return;
+      }
+      if (data.status === 'failed') throw new Error(data.message || 'Ingestion failed.');
+      setTimeout(poll, 1000);
+    };
+    await poll();
+  }
+
+  function updatePipeline(data) {
+    const stageNames = ['validation', 'audio', 'transcription', 'cleaning', 'indexing', 'summarization'];
+    const labels = {
+      validation: 'Validation', audio: 'Audio extraction', transcription: 'Transcription',
+      cleaning: 'Transcript cleaning', summarization: 'Summarization', indexing: 'Semantic indexing'
+    };
+    pipelineSteps.forEach((step, index) => {
+      const state = data.stages[stageNames[index]] || 'pending';
+      step.classList.remove('pending', 'active', 'done', 'error');
+      step.classList.add(state);
+      step.querySelector('.step-state').textContent = state === 'active' ? 'Working' : state[0].toUpperCase() + state.slice(1);
+    });
+    progressText.textContent = data.current_stage ? `${labels[data.current_stage]} in progress...` : data.message;
+  }
+
+  function resetUploadState() {
+    submitButton.disabled = false;
+    progress.classList.add('hidden');
   }
 });

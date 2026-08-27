@@ -1,13 +1,7 @@
 import re
-import sys
 import spacy
 import json
 from pathlib import Path
-
-# Add project root to sys.path
-sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
-
-from config.settings import RAW_TRANSCRIPTS, CLEANED_TRANSCRIPTS
 
 nlp = spacy.load("en_core_web_sm", disable=["ner", "parser", "tagger", "lemmatizer"])
 
@@ -53,15 +47,17 @@ def clean_text(text:str) -> str:
     
     
     
-def clean_transcript(raw_path, cleaned_path):
-    raw_dir = Path(raw_path)
-    cleandir= Path(cleaned_path)
-    cleandir.mkdir(parents=True, exist_ok=True)
+def clean_transcript(input_path, output_path):
+    input_path = Path(input_path)
+    output_path = Path(output_path)
+    input_files = [input_path] if input_path.is_file() else [
+        file_path for file_path in input_path.iterdir() if file_path.is_file()
+    ]
+    output_dir = output_path if output_path.suffix == "" else output_path.parent
+    output_dir.mkdir(parents=True, exist_ok=True)
 
-    raw_transcript_files = [files for files in raw_dir.iterdir() if files.is_file()]
-
-    for raw_transcript_file in raw_transcript_files:
-        with open(str(raw_transcript_file), "r", encoding="utf-8") as f:
+    for input_file in input_files:
+        with open(str(input_file), "r", encoding="utf-8") as f:
             transcript = json.load(f)
     
         cleaned_transcript = []
@@ -75,11 +71,7 @@ def clean_transcript(raw_path, cleaned_path):
                 "end" : seg_end,
                 "text" : cleaned_text
             })
-        cleaned_file = cleandir / raw_transcript_file.name
+        cleaned_file = output_path if output_path.suffix else output_dir / input_file.name
         with open(str(cleaned_file), "w", encoding="utf-8") as f:
             json.dump(cleaned_transcript, f, ensure_ascii=False, indent=2)
         print(f"Success: {cleaned_file}")
-        
-
-if __name__ == "__main__":
-    clean_transcript(RAW_TRANSCRIPTS, CLEANED_TRANSCRIPTS)

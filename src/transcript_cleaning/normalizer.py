@@ -1,11 +1,6 @@
-import sys
 import spacy
 from pathlib import Path
 import json
-
-sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
-
-from config.settings import SEGMENTED_TRANSCRIPTS, NORMALIZED_TRANSCRIPTS
 
 nlp = spacy.load("en_core_web_sm", disable=["parser", "ner"])
 
@@ -27,15 +22,14 @@ def normalize_text(text: str) -> str:
     return " ".join(normalized_tokens)
 
 
-def normalize_transcript(input_path, output_path):
-    in_dir = Path(input_path)
-    out_dir = Path(output_path)
-    out_dir.mkdir(parents=True, exist_ok=True)
-
-    segmented_files = [f for  f in in_dir.iterdir() if f.suffix == ".json"]  
+def normalize_transcript(input_path):
+    input_path = Path(input_path)
+    segmented_files = [input_path] if input_path.is_file() else [
+        path for path in input_path.iterdir() if path.suffix == ".json"
+    ]
         
-    for chunk_file in segmented_files:    
-        with open(chunk_file,"r") as f:
+    for chunk_file in segmented_files: 
+        with open(chunk_file, "r", encoding="utf-8") as f:
             data = json.load(f)
         
         normalized_chunks = []
@@ -44,11 +38,7 @@ def normalize_transcript(input_path, output_path):
             chunk_copy['normalized_text'] = normalize_text(chunk['text'])
             normalized_chunks.append(chunk_copy)
 
-        out_file_path = out_dir / chunk_file.name
-        with open(out_file_path,"w") as f:
-            json.dump(normalized_chunks,f,indent=4)
+        with open(chunk_file, "w", encoding="utf-8") as f:
+            json.dump(normalized_chunks, f, indent=4, ensure_ascii=False)
 
-        print(f"normalized {chunk_file} completed.")
-
-if __name__ == "__main__":
-    normalize_transcript(SEGMENTED_TRANSCRIPTS, NORMALIZED_TRANSCRIPTS)
+    

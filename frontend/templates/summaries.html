@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}AI Summaries — AniSense AI{% endblock %}
+{% block eyebrow %}AI Summaries{% endblock %}
+{% block page_title %}Episode Intelligence{% endblock %}
+{% block content %}
+<section class="content-intro"><span class="pill soft">Generated intelligence</span><h2>Summaries from your processed videos.</h2><p>Open an episode to review its overview, key moments and topics.</p></section>
+<section class="video-grid" id="summaryGrid">
+{% for video in videos if video.summary %}
+<article class="video-card"><a class="thumbnail thumb-{{ video.thumbnail }}" href="{{ url_for('summary', video_id=video.id) }}"><span class="play-overlay">✦</span><span class="duration">{{ video.duration }}</span></a><div class="video-info"><div><h3>{{ video.title }}</h3><p>{{ video.episode }}</p></div><span class="status ready">AI Ready</span></div><div class="card-actions"><a href="{{ url_for('summary', video_id=video.id) }}">Open Summary</a></div></article>
+{% else %}
+<div class="empty-state"><div>✦</div><h3>No summaries yet</h3><p>Process a video to generate its AI summary.</p><a class="btn primary" href="{{ url_for('upload') }}">Upload Video</a></div>
+{% endfor %}
+</section>
+{% endblock %}

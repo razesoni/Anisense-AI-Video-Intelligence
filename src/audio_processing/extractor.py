@@ -1,11 +1,5 @@
-import sys
 from pathlib import Path
-
-# Add project root to sys.path
-sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
-
 import subprocess
-from config.settings import settings, VIDEO_DIR, AUDIO_DIR
 
 class AudioExtractor:
     def __init__(self, settings, audio_dir):
@@ -19,8 +13,10 @@ class AudioExtractor:
         self.audio_dir.mkdir(parents=True, exist_ok=True)
 
     def extract_audio(self, video_path):
-        video_dir = Path(video_path)
-        video_files = [files for files in video_dir.iterdir() if files.is_file()]
+        video_path = Path(video_path)
+        video_files = [video_path] if video_path.is_file() else [
+            file_path for file_path in video_path.iterdir() if file_path.is_file()
+        ]
 
 
         for video_file in video_files:
@@ -49,10 +45,6 @@ class AudioExtractor:
                 print(f"Success: {audio_file.name}")
             except subprocess.CalledProcessError as e:
                 print(f"Failed to convert {video_file.name}: {e}")
-
-if __name__ == "__main__":
-    extractor = AudioExtractor(settings, AUDIO_DIR)
-    extractor.extract_audio(VIDEO_DIR)
     
     
         

@@ -1,11 +1,7 @@
 import re
-import sys
 import json
 from pathlib import Path
 from typing import Dict, List
-
-sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
-from config.settings import CLEANED_TRANSCRIPTS, SEGMENTED_TRANSCRIPTS
 
 
 def split_into_sentences(text: str) -> List[str]:
@@ -23,6 +19,7 @@ def split_into_sentences(text: str) -> List[str]:
 
 
 def create_timestamped_chunks(
+    video_name: str,
     segments: List[Dict],
     max_words: int = 120,
     min_words: int = 30,
@@ -30,6 +27,12 @@ def create_timestamped_chunks(
 ) -> List[Dict]:
 
     chunks = []
+
+    video_stem = Path(video_name).stem
+    parts = video_stem.split("_")
+    anime_name = parts[0] if len(parts) > 0 else ""
+    season = parts[1] if len(parts) > 1 else ""
+    episode = parts[2] if len(parts) > 2 else ""
 
     current_sentences = []
     current_start = None
@@ -62,6 +65,10 @@ def create_timestamped_chunks(
 
                 chunks.append({
                     "chunk_id": f"chunk_{chunk_number:04d}",
+                    "video_id": f"{video_stem}_chunk_{chunk_number:04d}",
+                    "anime_name": anime_name,
+                    "season": season,
+                    "episode": episode,
                     "start": current_start,
                     "end": current_end,
                     "text": chunk_text,
@@ -105,6 +112,10 @@ def create_timestamped_chunks(
 
         chunks.append({
             "chunk_id": f"chunk_{chunk_number:04d}",
+            "video_id": f"{video_stem}_chunk_{chunk_number:04d}",
+            "anime_name": anime_name,
+            "season": season,
+            "episode": episode,
             "start": current_start,
             "end": current_end,
             "text": chunk_text,
@@ -114,29 +125,23 @@ def create_timestamped_chunks(
     return chunks
 
 
-def segment_transcript(clean_path, segmented_path):
-    cleaned_dir = Path(clean_path)
-    segmented_dir = Path(segmented_path)
-    segmented_dir.mkdir(parents=True, exist_ok=True)
+def segment_transcript(file_path):
+    file_path = Path(file_path)
+    dir_path = file_path if file_path.is_dir() else file_path.parent
+    transcript_files = [file_path] if file_path.is_file() else [
+        path for path in dir_path.iterdir() if path.is_file()
+    ]
 
-    cleaned_transcript_files = [f for f in cleaned_dir.iterdir() if f.is_file()]
-
-    for cleaned_transcript_file in cleaned_transcript_files:
-        with open(str(cleaned_transcript_file), "r", encoding="utf-8") as f:
+    for transcript_file in transcript_files:
+        with open(str(transcript_file), "r", encoding="utf-8") as f:
             transcript = json.load(f)
 
-        segmented_transcript = create_timestamped_chunks(transcript)
+        segmented_transcript = create_timestamped_chunks(transcript_file.name, transcript)
 
-        file_name_without_ext = cleaned_transcript_file.stem
-        output_path = segmented_dir / f"{file_name_without_ext}.json"
+        file_name_without_ext = transcript_file.stem
+        output_path = dir_path / f"{file_name_without_ext}.json"
 
         with open(str(output_path), "w", encoding="utf-8") as f:
             json.dump(segmented_transcript, f, ensure_ascii=False, indent=2)
-
-        print(f"Saved segmented transcript: {output_path}")
-
-
-if __name__ == "__main__":
-    segment_transcript(CLEANED_TRANSCRIPTS, SEGMENTED_TRANSCRIPTS)
     
         

@@ -6,17 +6,37 @@
 <div class="video-layout">
   <section class="player-column">
     <div class="video-player" id="videoPlayer">
+      {% if video.media_url %}
+      <video id="videoElement" controls preload="metadata"><source src="{{ video.media_url }}">Your browser does not support video playback.</video>
+      {% else %}
       <div class="player-placeholder"><div class="player-brand">✦ AniSense</div><button class="big-play" id="bigPlay">▶</button><span class="player-scene">AI video preview</span></div>
-      <div class="player-controls"><button>▶</button><span>00:04:32</span><input type="range" value="28"><span>{{ video.duration }}</span><button>🔊</button><button>1×</button><button>⛶</button></div>
+      <div class="player-controls"><button>▶</button><span>00:04:32</span><input type="range" value="28" aria-label="Video progress"><span>{{ video.duration }}</span><button>🔊</button><button>1×</button><button>⛶</button></div>
+      {% endif %}
     </div>
     <div class="video-heading"><div><h2>{{ video.title }} <span>{{ video.episode }}</span></h2><p>{{ video.duration }} · <span class="status ready">{{ video.status }}</span></p></div><div class="video-buttons"><a class="btn ghost" href="{{ url_for('search') }}">⌕ AI Search This Video</a><a class="btn primary" href="{{ url_for('summary', video_id=video.id) }}">✦ Generate Summary</a></div></div>
-    <div class="jump-row"><b>Jump to Important Moments</b><button data-time="00:03">00:03 Introduction</button><button data-time="00:08">00:08 Conflict</button><button data-time="00:14">00:14 Revelation</button><button data-time="00:19">00:19 Finale</button></div>
+    <div class="jump-row"><b>Jump to Important Moments</b>{% for moment in (summary.key_moments if summary else []) %}<button data-time="{{ moment.timestamp_start }}">{{ format_timestamp(moment.timestamp_start) }} {{ moment.label }}</button>{% else %}<span>No key moments available yet.</span>{% endfor %}</div>
+
+    <section class="transcript-card key-moments-card">
+      <div class="section-heading"><span class="section-kicker">Generated summary</span><h2>Key Moments</h2></div>
+      <div class="transcript key-moments-list">
+        {% for moment in (summary.key_moments if summary else []) %}
+        <button class="transcript-row key-moment {% if loop.first %}active{% endif %}" data-time="{{ moment.timestamp_start }}">
+          <span class="timestamp">▶ {{ format_timestamp(moment.timestamp_start) }}{% if moment.timestamp_end is defined %} - {{ format_timestamp(moment.timestamp_end) }}{% endif %}</span>
+          <span class="key-moment-copy"><strong>{{ moment.label }}</strong><small>{{ moment.description }}</small></span>
+        </button>
+        {% else %}
+        <p class="empty-transcript">Key moments are not available until a summary is generated.</p>
+        {% endfor %}
+      </div>
+    </section>
 
     <section class="transcript-card">
       <div class="section-heading"><span class="section-kicker">Timestamped transcript</span><h2>Transcript</h2></div>
       <div class="transcript">
-        {% for t in [("00:02:14","The squad finally reaches the abandoned city..."),("00:04:32","Something about this place feels different. Stay close."),("00:07:18","We have to keep moving before they find us."),("00:12:43","The commander reveals that the walls were built to protect humanity from..."),("00:17:26","Everyone goes silent as the hidden message is decoded...")] %}
-        <button class="transcript-row {% if loop.index == 2 %}active{% endif %}" data-time="{{ t[0] }}"><span class="timestamp">▶ {{ t[0] }}</span><span>{{ t[1] }}</span></button>
+        {% for item in transcript[:12] %}
+        <button class="transcript-row {% if loop.first %}active{% endif %}" data-time="{{ item.start }}"><span class="timestamp">▶ {{ format_timestamp(item.start) }}</span><span>{{ item.text }}</span></button>
+        {% else %}
+        <p class="empty-transcript">Transcript is not available yet.</p>
         {% endfor %}
       </div>
     </section>
@@ -24,11 +44,11 @@
 
   <aside class="summary-panel">
     <div class="panel-header"><div><span class="section-kicker">AI intelligence</span><h2>AI Summary</h2></div><span class="ai-badge">✦ AI</span></div>
-    <div class="summary-section"><h4>Overview</h4><p>The episode follows a tense sequence of events as the main characters uncover new information, face a growing conflict, and make a difficult decision.</p></div>
-    <div class="summary-section"><h4>Key Points</h4><ul><li>Main event and setup</li><li>Character development</li><li>Important dialogue</li><li>Major conflict</li><li>Important revelation</li></ul></div>
-    <div class="summary-section"><h4>Topics</h4><div class="tag-list"><span>Battle</span><span>Friendship</span><span>Character Development</span><span>Mystery</span><span>Conflict</span></div></div>
+    <div class="summary-section"><h4>Overview</h4><p>{{ summary.overview if summary else "Summary is not available yet." }}</p></div>
+    <div class="summary-section"><h4>Key Points</h4><ul>{% for point in (summary.key_points if summary else []) %}<li>{{ point }}</li>{% endfor %}</ul></div>
+    <div class="summary-section"><h4>Topics</h4><div class="tag-list">{% for tag in (summary.tags if summary else []) %}<span>{{ tag }}</span>{% endfor %}</div></div>
     <a class="btn ghost full" href="{{ url_for('summary', video_id=video.id) }}">View Full AI Summary →</a>
   </aside>
 </div>
 {% endblock %}
-{% block scripts %}<script src="{{ url_for('static', filename='js/player.js') }}"></script>{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', path='js/player.js') }}?v=2"></script>{% endblock %}

@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
   {% block head %}{% endblock %}
 </head>
 <body class="anime-app">
@@ -16,7 +16,7 @@
   <div class="app-shell">
     <aside class="sidebar" id="sidebar">
       <a class="brand" href="{{ url_for('dashboard') }}">
-        <span class="brand-mark">✦</span>
+        <span class="brand-mark character-mark"><img src="{{ url_for('static', path='assets/columbina-icon.png') }}" alt="Columbina"></span>
         <span>
           <strong>AniSense AI</strong>
           <small>AI Video Intelligence</small>
@@ -25,12 +25,12 @@
 
       <nav class="nav-section" aria-label="Primary navigation">
         <span class="nav-label">Workspace</span>
-        <a class="nav-link {% if request.path == '/dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}">⌂ <span>Dashboard</span></a>
-        <a class="nav-link {% if request.path == '/upload' %}active{% endif %}" href="{{ url_for('upload') }}">🎬 <span>Videos</span></a>
-        <a class="nav-link {% if request.path == '/search' %}active{% endif %}" href="{{ url_for('search') }}">⌕ <span>Intelligent Search</span></a>
-        <a class="nav-link {% if '/summary/' in request.path %}active{% endif %}" href="{{ url_for('summary', video_id=1) }}">✦ <span>AI Summaries</span></a>
-        <a class="nav-link {% if request.path == '/library' %}active{% endif %}" href="{{ url_for('library') }}">▣ <span>Library</span></a>
-        <a class="nav-link" href="{{ url_for('dashboard') }}">◔ <span>Analytics</span></a>
+        <a class="nav-link {% if request.url.path == '/dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}">⌂ <span>Dashboard</span></a>
+        <a class="nav-link {% if request.url.path == '/upload' %}active{% endif %}" href="{{ url_for('upload') }}">🎬 <span>Videos</span></a>
+        <a class="nav-link {% if request.url.path == '/search' %}active{% endif %}" href="{{ url_for('search') }}">⌕ <span>Intelligent Search</span></a>
+        <a class="nav-link {% if '/summary' in request.url.path %}active{% endif %}" href="{{ url_for('summaries') }}">✦ <span>AI Summaries</span></a>
+        <a class="nav-link {% if request.url.path == '/library' %}active{% endif %}" href="{{ url_for('library') }}">▣ <span>Library</span></a>
+        <a class="nav-link {% if request.url.path == '/analytics' %}active{% endif %}" href="{{ url_for('analytics') }}">◔ <span>Analytics</span></a>
       </nav>
 
       <nav class="nav-section secondary" aria-label="Secondary navigation">
@@ -41,7 +41,7 @@
       </nav>
 
       <div class="profile-card">
-        <div class="avatar">AK</div>
+        <div class="avatar character-avatar"><img src="{{ url_for('static', path='assets/columbina-icon.png') }}" alt="Columbina"></div>
         <div>
           <strong>Akash Kumar</strong>
           <span>Data Science Project</span>
@@ -65,7 +65,7 @@
           </button>
           <button class="icon-btn notification" aria-label="Notifications">♢<i></i></button>
           <button class="icon-btn theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">☾</button>
-          <div class="avatar small">AK</div>
+          <div class="avatar small character-avatar"><img src="{{ url_for('static', path='assets/columbina-icon.png') }}" alt="Columbina"></div>
         </div>
       </header>
 
@@ -90,7 +90,7 @@
       <h2>Search your anime knowledge</h2>
       <form action="{{ url_for('search') }}" class="global-search-form">
         <input name="q" autofocus placeholder="Try “When does the protagonist discover the secret?”">
-        <button class="btn primary">Search</button>
+        <button class="btn primary" type="submit">Search</button>
       </form>
       <div class="suggestions">
         <button>Find the first major battle</button>
@@ -103,7 +103,7 @@
   <div class="toast-stack" id="toastStack"></div>
   {% endblock %}
 
-  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  <script src="{{ url_for('static', path='js/app.js') }}"></script>
   {% block scripts %}{% endblock %}
 </body>
 </html>

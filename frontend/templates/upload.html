@@ -3,34 +3,90 @@
 {% block eyebrow %}Videos{% endblock %}
 {% block page_title %}Upload an Anime Video{% endblock %}
 {% block content %}
-<section class="content-intro"><span class="pill soft">01 · Start processing</span><h2>Bring a new story into your AI workspace.</h2><p>Drop your video below. AniSense will validate it, extract audio, transcribe dialogue, generate insights and index the content for semantic search.</p></section>
+<section class="content-intro">
+  <span class="pill soft">01 · Start processing</span>
+  <h2>Bring a new story into your AI workspace.</h2>
+  <p>Provide series metadata and drop your video below. AniSense will format the filename, validate the stream, extract
+    audio, transcribe dialogue, generate insights, and index the content for semantic search.</p>
+</section>
 
 <form id="uploadForm" class="upload-zone" enctype="multipart/form-data">
-  <input id="videoFile" name="file" type="file" accept="video/mp4,video/x-matroska,video/avi,video/quicktime,video/webm" hidden>
+  <!-- Metadata Inputs -->
+  <div class="metadata-form-grid"
+    style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1rem; width: 100%; margin-bottom: 1.5rem; text-align: left;">
+    <div class="form-group">
+      <label for="animeTitle"
+        style="font-weight: 600; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Anime Title *</label>
+      <input type="text" id="animeTitle" name="title" required placeholder="e.g. Classroom of the Elite"
+        style="width: 100%; padding: 0.6rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.2); color: inherit;">
+    </div>
+    <div class="form-group">
+      <label for="animeSeason"
+        style="font-weight: 600; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Season *</label>
+      <input type="number" id="animeSeason" name="season" min="1" value="1" required
+        style="width: 100%; padding: 0.6rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.2); color: inherit;">
+    </div>
+    <div class="form-group">
+      <label for="animeEpisode"
+        style="font-weight: 600; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Episode *</label>
+      <input type="number" id="animeEpisode" name="episode" min="1" value="1" required
+        style="width: 100%; padding: 0.6rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.2); color: inherit;">
+    </div>
+  </div>
+
+  <!-- Video File Selection -->
+  <input id="videoFile" name="file" type="file" accept="video/mp4,video/x-matroska,video/avi,video/quicktime,video/webm"
+    hidden required>
   <div class="upload-icon">↑</div>
   <h3>Upload an Anime Video</h3>
-  <p>Drop your video here or <button type="button" class="browse-btn" id="browseBtn">browse from your computer</button>.</p>
-  <div class="format-row"><span>MP4</span><span>MKV</span><span>AVI</span><span>MOV</span><span>WebM</span><b>Maximum file size: 2 GB</b></div>
+  <p>Drop your video here or <button type="button" class="browse-btn" id="browseBtn">browse from your computer</button>.
+  </p>
+  <div class="format-row">
+    <span>MP4</span>
+    <span>MKV</span>
+    <span>AVI</span>
+    <span>MOV</span>
+    <span>WebM</span>
+    <b>Maximum file size: 2 GB</b>
+  </div>
+
+  <!-- Target Canonical Format Preview -->
+  <div id="targetFilenamePreview" style="margin-top: 1rem; font-size: 0.9rem; color: #a5b4fc; font-family: monospace;">
+  </div>
+
   <div id="filePreview" class="file-preview hidden"></div>
+  <div id="uploadProgress" class="upload-progress hidden" aria-live="polite">
+    <span class="spinner"></span>
+    <span id="uploadProgressText">Preparing ingestion...</span>
+  </div>
   <button class="btn primary upload-submit" type="submit">Process Video →</button>
 </form>
 
 <section class="pipeline-card">
-  <div class="section-heading"><span class="section-kicker">What happens next</span><h2>AI Processing Pipeline</h2><p>Your video moves through six transparent stages.</p></div>
+  <div class="section-heading">
+    <span class="section-kicker">What happens next</span>
+    <h2>AI Processing Pipeline</h2>
+    <p>Your video moves through six transparent stages.</p>
+  </div>
   <div class="pipeline">
     {% for step in [
-      ("01","Video Validation","Check format, codec, file size, and corruption."),
-      ("02","Audio Extraction","Extract audio using FFmpeg."),
-      ("03","AI Transcription","Transcribe dialogue using Faster-Whisper."),
-      ("04","Transcript Cleaning","Normalize text and segment timestamps."),
-      ("05","AI Summarization","Generate summaries, key points and topics."),
-      ("06","Semantic Indexing","Generate embeddings and index transcript segments.")
+    ("01","Canonical Naming & Validation","Standardizes filename and validates file integrity."),
+    ("02","Audio Extraction","Extract audio using FFmpeg."),
+    ("03","AI Transcription","Transcribe dialogue using Faster-Whisper."),
+    ("04","Transcript Cleaning","Normalize text and segment timestamps."),
+    ("05","AI Summarization","Generate summaries, key points and topics."),
+    ("06","Semantic Indexing","Generate embeddings and index transcript segments.")
     ] %}
-    <div class="pipeline-step {% if loop.first %}done{% endif %}">
-      <div class="step-number">{{ step[0] }}</div><div class="step-copy"><b>{{ step[1] }}</b><span>{{ step[2] }}</span></div><span class="step-state">{{ "Ready" if loop.first else "Pending" }}</span>
+    <div class="pipeline-step pending" data-stage="{{ loop.index0 }}">
+      <div class="step-number">{{ step[0] }}</div>
+      <div class="step-copy"><b>{{ step[1] }}</b><span>{{ step[2] }}</span></div>
+      <span class="step-state">Pending</span>
     </div>
     {% endfor %}
   </div>
 </section>
 {% endblock %}
-{% block scripts %}<script src="{{ url_for('static', filename='js/upload.js') }}"></script>{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', path='js/upload.js') }}"></script>
+{% endblock %}

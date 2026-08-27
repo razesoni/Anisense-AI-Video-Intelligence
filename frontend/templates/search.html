@@ -3,25 +3,68 @@
 {% block eyebrow %}Semantic Search{% endblock %}
 {% block page_title %}Search Inside Your Anime{% endblock %}
 {% block content %}
-<section class="search-hero"><span class="pill soft">⌕ Semantic video search</span><h2>Ask questions. <em>Find exact moments.</em></h2><p>Describe a scene naturally and AniSense will locate the most relevant transcript segments across your library.</p>
-<form class="big-search" id="searchForm"><span>⌕</span><input id="searchInput" value="{{ request.args.get('q','') }}" placeholder='Try "When does the main character discover the secret?"'><button class="btn primary">Search</button></form>
-<div class="filter-row"><button class="filter active">All Videos</button><button class="filter">Specific Anime</button><button class="filter">Episode</button><button class="filter">Time Range</button><button class="filter">Characters</button><button class="filter">Topics</button></div>
-</section>
-
-<section class="search-results-section">
-  <div class="results-header"><div><span class="section-kicker">AI retrieval</span><h2 id="resultTitle">Semantic Search Results</h2></div><span id="resultCount">3 relevant moments</span></div>
-  <div id="searchLoading" class="search-loading hidden"><div class="spinner"></div><b>Searching anime knowledge...</b><span>Comparing your query against indexed transcript segments.</span></div>
-  <div id="results" class="results-list">
-    {% for r in [
-      {"video":"Attack on Titan — Episode 03","time":"12:43","match":94,"snippet":"...the commander reveals that the walls were built to protect humanity from..."},
-      {"video":"Demon Slayer — Episode 05","time":"08:17","match":89,"snippet":"...the mysterious girl finally appears and the protagonist realizes she knows..."},
-      {"video":"Steins;Gate — Episode 08","time":"17:26","match":84,"snippet":"...the conversation changes everything as the hidden message is decoded..."}
-    ] %}
-    <article class="result-card"><div class="result-top"><span class="result-index">0{{ loop.index }}</span><div><h3>{{ r.video }}</h3><span class="result-time">▶ {{ r.time }}</span></div><div class="match"><strong>{{ r.match }}%</strong><span>Semantic Match</span><i><b style="width:{{ r.match }}%"></b></i></div></div><p>Transcript snippet:</p><blockquote>{{ r.snippet }}</blockquote><div class="result-actions"><a class="btn primary small" href="{{ url_for('video', video_id=1) }}">▶ Watch Moment</a><button class="btn ghost small">View Transcript</button><a class="btn ghost small" href="{{ url_for('video', video_id=1) }}">Open Video</a></div></article>
-    {% endfor %}
+<section class="search-hero">
+  <span class="pill soft">⌕ Semantic video search</span>
+  <h2>Ask questions. <em>Find exact moments.</em></h2>
+  <p>Describe a scene naturally and AniSense will locate the most relevant transcript segments across your library.</p>
+  
+  <form class="big-search" id="searchForm">
+    <span>⌕</span>
+    <input id="searchInput" value="{{ request.query_params.get('q','') }}" placeholder='Try "When does the main character discover the secret?"' autocomplete="off">
+    <button type="submit" class="btn primary">Search</button>
+  </form>
+  
+  <div class="filter-row">
+    <button class="filter active" data-scope="both">All Content</button>
+    <button class="filter" data-scope="transcript">Transcript Moments</button>
+    <button class="filter" data-scope="summary">Anime Summaries</button>
   </div>
 </section>
 
-<section class="timeline-card"><div class="section-heading"><span class="section-kicker">Where results appear</span><h2>Search Result Timeline</h2></div><div class="timeline"><div class="timeline-line"></div><div class="ticks"><span>0:00</span><span>5:00</span><span>10:00</span><span>15:00</span><span>20:00</span></div><button class="marker m1" style="left:63%">12:43</button><button class="marker m2" style="left:41%">08:17</button><button class="marker m3" style="left:85%">17:26</button></div></section>
+<section class="search-results-section">
+  <div class="results-header">
+    <div>
+      <span class="section-kicker">AI retrieval</span>
+      <h2 id="resultTitle">Semantic Search Results</h2>
+    </div>
+    <span id="resultCount">Enter a query to search</span>
+  </div>
+  
+  <div id="searchLoading" class="search-loading hidden">
+    <div class="spinner"></div>
+    <b>Searching anime knowledge base...</b>
+    <span>Comparing your query against indexed transcript segments and summaries.</span>
+  </div>
+  
+  <div id="results" class="results-list">
+    <div class="initial-search-prompt" style="text-align: center; padding: 40px 20px; color: var(--text-muted, #94a3b8);">
+      <div style="font-size: 2.5rem; margin-bottom: 12px;">⌕</div>
+      <h3 style="font-size: 1.2rem; color: var(--text-main, #f8fafc); margin-bottom: 8px;">Ready to search your library</h3>
+      <p>Type a natural prompt above (e.g. <i>"the commander reveals the secret of the wall"</i>) and press Search.</p>
+    </div>
+  </div>
+</section>
+
+<section class="timeline-card">
+  <div class="section-heading">
+    <span class="section-kicker">Where results appear</span>
+    <h2>Search Result Timeline</h2>
+  </div>
+  <div class="timeline">
+    <div class="timeline-line"></div>
+    <div class="ticks">
+      <span>0:00</span>
+      <span>5:00</span>
+      <span>10:00</span>
+      <span>15:00</span>
+      <span>20:00</span>
+      <span>25:00</span>
+      <span>30:00</span>
+    </div>
+  </div>
+</section>
 {% endblock %}
-{% block scripts %}<script src="{{ url_for('static', filename='js/search.js') }}"></script>{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', path='js/search.js') }}"></script>
+{% endblock %}

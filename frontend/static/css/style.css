@@ -21,7 +21,7 @@ h1,h2,h3,h4,p{margin-top:0}.app-shell{min-height:100vh;display:flex}.sidebar{pos
 body.anime-app {
   background:
     linear-gradient(rgba(248,247,252,.78), rgba(248,247,252,.90)),
-    url("../assets/anime-world-bg.jpg") center top / cover fixed;
+    url("../assets/columbia_purple.png") center top / cover fixed;
 }
 
 body.anime-app::before {
@@ -42,7 +42,7 @@ body.anime-app::before {
   z-index: -1;
   opacity: .65;
   background:
-    url("../assets/anime-world-bg.jpg") center top / cover no-repeat;
+    url("../assets/columbia_purple.png") center top / cover no-repeat;
   filter: saturate(1.05);
   animation: atmosphereDrift 24s ease-in-out infinite alternate;
 }
@@ -95,7 +95,7 @@ body.anime-app::before {
 .dashboard-hero {
   background:
     linear-gradient(115deg, rgba(255,255,255,.88), rgba(248,244,255,.68)),
-    url("../assets/anime-world-bg.jpg") center / cover;
+    url("../assets/columbia_purple.png") center / cover;
   border-color: rgba(216,207,241,.85);
 }
 
@@ -117,6 +117,40 @@ body.anime-app::before {
 .video-card .thumbnail::before {
   background: linear-gradient(180deg, rgba(30,22,55,.04), rgba(30,22,55,.38));
 }
+
+.video-player video {
+  display: block;
+  width: 100%;
+  max-height: 440px;
+  background: #171624;
+}
+
+.upload-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin: 15px auto 2px;
+  color: var(--primary);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.upload-progress .spinner { width: 18px; height: 18px; border-width: 2px; }
+.upload-submit:disabled { cursor: wait; opacity: .65; }
+.dashboard-loading { grid-column: 1 / -1; padding: 36px; text-align: center; color: var(--muted); }
+.key-moments-card { margin: 18px 0; }
+.key-moment-copy strong, .key-moment-copy small { display: block; }
+.key-moment-copy strong { font-size: 12px; }
+.key-moment-copy small { margin-top: 3px; color: var(--muted); font-size: 11px; line-height: 1.45; }
+.pipeline-step { transition: .3s ease; }
+.pipeline-step.pending { border-color: var(--border); background: #fcfbfe; }
+.pipeline-step.active { border-color: var(--warning); background: #fff8e9; }
+.pipeline-step.done { border-color: #b9e0c9; background: #f1fbf5; }
+.pipeline-step.error { border-color: var(--error); background: #fff0f1; }
+.pipeline-step.active .step-state { color: var(--warning); font-weight: 800; }
+.pipeline-step.done .step-state { color: var(--success); font-weight: 800; }
+.pipeline-step.error .step-state { color: var(--error); font-weight: 800; }
 
 .thumbnail-art { display: none; }
 
@@ -155,7 +189,7 @@ body.anime-dark {
   --border: rgba(255,255,255,.11);
   background:
     linear-gradient(rgba(18,16,35,.78), rgba(18,16,35,.90)),
-    url("../assets/anime-world-bg.jpg") center / cover fixed;
+    url("../assets/columbia_purple.png") center / cover fixed;
 }
 
 body.anime-dark .sidebar,
@@ -241,7 +275,7 @@ body.anime-dark .topbar h1 { color: var(--text); }
   isolation: isolate;
   background:
     linear-gradient(rgba(250,249,253,.74), rgba(250,249,253,.94)),
-    url("../assets/anime-world-bg.jpg") center top / cover fixed;
+    url("../assets/columbia_purple.png") center top / cover fixed;
 }
 
 .landing::before {
@@ -272,4 +306,119 @@ body.anime-dark .topbar h1 { color: var(--text); }
   background: rgba(255,255,255,.58);
   backdrop-filter: blur(14px);
   border-radius: 0 0 20px 20px;
+}
+
+
+/* =========================================================
+   COLUMBINA THEME EXTENSIONS
+   Assets are served from /static/assets/
+   ========================================================= */
+
+.character-mark {
+  overflow: hidden;
+  border: 1px solid rgba(214, 190, 255, .65);
+  padding: 0;
+  position: relative;
+}
+.character-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.character-avatar {
+  overflow: hidden;
+  border: 1px solid rgba(173, 140, 255, .55);
+  padding: 0;
+}
+.character-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+body.anime-dark .character-mark,
+body.anime-dark .character-avatar {
+  box-shadow: 0 0 24px rgba(143, 94, 255, .28);
+}
+
+/* Character portrait in dashboard hero */
+.character-orbit {
+  width: 270px;
+  height: 230px;
+}
+.character-portrait {
+  width: 132px;
+  height: 132px;
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 3;
+  border: 2px solid rgba(224, 202, 255, .85);
+  box-shadow:
+    0 0 0 8px rgba(141, 93, 224, .10),
+    0 0 45px rgba(138, 75, 255, .45);
+}
+.character-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+body.anime-dark .character-portrait {
+  border-color: rgba(219, 190, 255, .9);
+}
+
+/* Landing page character accent */
+.columbina-hero-character {
+  position: absolute;
+  right: 4%;
+  bottom: -22px;
+  width: 220px;
+  height: 310px;
+  z-index: 3;
+  pointer-events: none;
+  filter: drop-shadow(0 18px 35px rgba(35, 10, 80, .38));
+  opacity: .92;
+}
+.columbina-hero-character img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 110px 110px 24px 24px;
+  mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
+}
+.landing .hero-visual {
+  overflow: hidden;
+}
+
+@media (max-width: 900px) {
+  .character-orbit {
+    width: 190px;
+    height: 180px;
+    margin-right: 10px;
+  }
+  .character-portrait {
+    width: 108px;
+    height: 108px;
+  }
+  .columbina-hero-character {
+    width: 150px;
+    height: 220px;
+    right: 1%;
+    bottom: -12px;
+    opacity: .62;
+  }
+}
+
+@media (max-width: 760px) {
+  .character-orbit {
+    display: none;
+  }
+  .columbina-hero-character {
+    width: 115px;
+    height: 165px;
+    right: -10px;
+    opacity: .30;
+  }
 }

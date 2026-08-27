@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Analytics — AniSense AI{% endblock %}
+{% block eyebrow %}Analytics{% endblock %}
+{% block page_title %}Workspace Analytics{% endblock %}
+{% block content %}
+<section class="content-intro"><span class="pill soft">Workspace activity</span><h2>See how your library is growing.</h2><p>Processing and indexing totals are calculated from the videos currently available in your workspace.</p></section>
+<section class="stats-grid" id="analyticsStats"><article class="stat-card"><span>Videos Processed</span><strong data-stat="videos_processed">...</strong></article><article class="stat-card"><span>Total Duration</span><strong data-stat="total_duration">...</strong></article><article class="stat-card"><span>AI Summaries</span><strong data-stat="ai_summaries">...</strong></article><article class="stat-card"><span>Indexed Segments</span><strong data-stat="indexed_segments">...</strong></article></section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', path='js/analytics.js') }}"></script>{% endblock %}

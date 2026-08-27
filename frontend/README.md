@@ -13,7 +13,7 @@ python app.py
 
 Open http://127.0.0.1:5000
 
-The frontend uses HTML5, CSS3, Vanilla JavaScript and Jinja2. Mock API routes are included and can later be replaced with the existing FastAPI/AI pipeline.
+The frontend uses HTML5, CSS3, Vanilla JavaScript and Jinja2. Its Flask API routes proxy catalog, upload, search, and summary requests to the FastAPI backend. Start the backend from the repository root before using those features.
 
 ## Pages
 
