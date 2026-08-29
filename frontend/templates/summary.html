@@ -3,14 +3,19 @@
 {% block eyebrow %}AI Summary{% endblock %}
 {% block page_title %}Episode Intelligence{% endblock %}
 {% block content %}
-<div class="summary-header-card"><div><span class="section-kicker">Generated intelligence</span><h2>{{ video.title }} <span>{{ video.episode }}</span></h2><p>{{ video.duration }} · Generated just now</p></div><a class="btn ghost" href="{{ url_for('video', video_id=video.id) }}">← Back to Video</a></div>
+<section class="single-summary-hero">
+  <div><span class="frost-eyebrow"><span>✦</span> Episode Intelligence <span>✦</span></span><h2>{{ video.title }} <small>{{ video.episode }}</small></h2><p><span>◷ {{ video.duration }}</span><span>⌁ {{ video.segments }} segments</span><span>✦ AI-generated summary</span></p></div>
+  <a class="btn ghost" href="{{ url_for('video', video_id=video.id) }}">← Back to Video</a>
+</section>
 
-<section class="executive-card"><div class="section-heading"><span class="section-kicker">Executive Summary</span><h2>What happened?</h2></div><p>{{ summary.overview if summary else "Summary is not available yet. Process this video to generate AI intelligence." }}</p></section>
+<section class="summary-report-grid">
+  <article class="summary-intelligence-card report-executive"><span class="section-kicker">Executive Summary</span><h2>What happened?</h2><p>{{ summary.overview if summary else "Summary is not available yet. Process this video to generate AI intelligence." }}</p></article>
+  <article class="summary-intelligence-card report-topics"><span class="section-kicker">Topics</span><div class="tag-list">{% for tag in (summary.tags if summary else []) %}<span>{{ tag }}</span>{% else %}<span>Awaiting analysis</span>{% endfor %}</div></article>
 
-<div class="summary-two-col">
-  <section class="content-card"><div class="section-heading"><span class="section-kicker">Timeline</span><h2>Key Events</h2></div><div class="event-timeline">{% for event in (summary.key_moments if summary else []) %}<div class="event"><span>{{ "%02d:%02d"|format(event.timestamp_start // 60, event.timestamp_start % 60) }}</span><div><b>{{ event.label }}</b><p>{{ event.description }}</p></div></div>{% endfor %}</div></section>
-  <section class="content-card"><div class="section-heading"><span class="section-kicker">People & themes</span><h2>Topics</h2></div><div class="tag-list">{% for tag in (summary.tags if summary else []) %}<span>{{ tag }}</span>{% endfor %}</div></section>
-</div>
+  <article class="summary-intelligence-card report-events"><span class="section-kicker">Key Events</span><div class="event-timeline">{% for event in (summary.key_moments if summary else []) %}<div class="event"><span>{{ "%02d:%02d"|format(event.timestamp_start // 60, event.timestamp_start % 60) }}</span><div><b>{{ event.label }}</b><p>{{ event.description }}</p></div></div>{% else %}<div class="summary-soft-empty">Key moments will appear here after the summary is generated.</div>{% endfor %}</div></article>
 
-<section class="insights-card"><div class="section-heading"><span class="section-kicker">Model interpretation</span><h2>AI Insights</h2></div><div class="insight-grid"><div><span>◈</span><b>Main theme</b><p>Trust and survival in an uncertain world.</p></div><div><span>✦</span><b>Important events</b><p>A hidden truth is revealed and changes the stakes.</p></div><div><span>♢</span><b>Character development</b><p>The protagonist begins questioning previous assumptions.</p></div><div><span>◌</span><b>Emotional tone</b><p>Tense, mysterious and cautiously hopeful.</p></div><div><span>⚔</span><b>Major conflicts</b><p>Internal doubt meets an external threat.</p></div></div></section>
+  <article class="summary-intelligence-card report-insights"><span class="section-kicker">AI Insights</span><div class="insight-grid compact-insights"><div><span>◈</span><b>Main theme</b><p>Review the generated overview and topic signals for the episode's central ideas.</p></div><div><span>✦</span><b>Important events</b><p>Use timestamped key moments to revisit the most important scenes.</p></div><div><span>♢</span><b>Character development</b><p>Track notable changes in motivations, relationships, and decisions.</p></div><div><span>◌</span><b>Emotional tone</b><p>Use scene context to understand shifts in tension and mood.</p></div></div></article>
+</section>
+
+<div class="summary-assistant-bar single-summary-assistant"><img src="{{ url_for('static', path='assets/columbina-avatar.png') }}" alt="" class="summary-assistant-avatar"><div><b>Continue with Intelligent Search</b><small>Ask questions about this episode and find exact transcript moments.</small></div><a class="btn primary" href="{{ url_for('search') }}">Open Search ✦</a></div>
 {% endblock %}

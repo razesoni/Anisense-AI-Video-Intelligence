@@ -1,72 +1,79 @@
 {% extends "base.html" %}
 {% block title %}Upload — AniSense AI{% endblock %}
 {% block eyebrow %}Videos{% endblock %}
-{% block page_title %}Upload an Anime Video{% endblock %}
+{% block page_title %}Video Upload{% endblock %}
 {% block content %}
-<section class="content-intro">
-  <span class="pill soft">01 · Start processing</span>
-  <h2>Bring a new story into your AI workspace.</h2>
-  <p>Provide series metadata and drop your video below. AniSense will format the filename, validate the stream, extract
-    audio, transcribe dialogue, generate insights, and index the content for semantic search.</p>
+<section class="content-intro upload-intro">
+  <span class="pill soft">✦ AI ingestion chamber</span>
+  <h2>Bring a new episode into <em>moonlit intelligence.</em></h2>
+  <p>Drop an anime episode, add the series metadata, and AniSense will validate, transcribe, summarize, and index it for semantic search.</p>
 </section>
 
-<form id="uploadForm" class="upload-zone" enctype="multipart/form-data">
-  <!-- Metadata Inputs -->
-  <div class="metadata-form-grid"
-    style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1rem; width: 100%; margin-bottom: 1.5rem; text-align: left;">
-    <div class="form-group">
-      <label for="animeTitle"
-        style="font-weight: 600; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Anime Title *</label>
-      <input type="text" id="animeTitle" name="title" required placeholder="e.g. Classroom of the Elite"
-        style="width: 100%; padding: 0.6rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.2); color: inherit;">
+<form id="uploadForm" enctype="multipart/form-data" class="upload-studio">
+  <div class="upload-columns">
+    <div class="upload-zone upload-drop-card">
+      <img class="upload-character" src="{{ url_for('static', path='assets/columbina-upload.png') }}" alt="" aria-hidden="true">
+      <img class="upload-crystal" src="{{ url_for('static', path='assets/crystal-accent.svg') }}" alt="" aria-hidden="true">
+      <input id="videoFile" name="file" type="file" accept="video/mp4,video/x-matroska,video/avi,video/quicktime,video/webm" hidden required>
+      <div class="upload-content">
+        <div class="upload-icon">
+          <svg viewBox="0 0 24 24" width="30" height="30" fill="none" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </div>
+        <span class="section-kicker">Video upload</span>
+        <h3>Drop your anime episode here</h3>
+        <p>or <button type="button" class="browse-btn" id="browseBtn">browse from your computer</button></p>
+        <div class="format-row">
+          <span>MP4</span><span>MKV</span><span>AVI</span><span>MOV</span><span>WebM</span>
+          <b>Maximum file size: 2 GB</b>
+        </div>
+        <div id="filePreview" class="file-preview hidden"></div>
+        <div id="uploadProgress" class="upload-progress hidden" aria-live="polite">
+          <span class="spinner"></span>
+          <span id="uploadProgressText">Preparing ingestion...</span>
+        </div>
+        <button class="btn primary upload-submit" type="submit">Upload & Process <span>✦</span></button>
+      </div>
     </div>
-    <div class="form-group">
-      <label for="animeSeason"
-        style="font-weight: 600; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Season *</label>
-      <input type="number" id="animeSeason" name="season" min="1" value="1" required
-        style="width: 100%; padding: 0.6rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.2); color: inherit;">
-    </div>
-    <div class="form-group">
-      <label for="animeEpisode"
-        style="font-weight: 600; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Episode *</label>
-      <input type="number" id="animeEpisode" name="episode" min="1" value="1" required
-        style="width: 100%; padding: 0.6rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.2); color: inherit;">
-    </div>
-  </div>
 
-  <!-- Video File Selection -->
-  <input id="videoFile" name="file" type="file" accept="video/mp4,video/x-matroska,video/avi,video/quicktime,video/webm"
-    hidden required>
-  <div class="upload-icon">↑</div>
-  <h3>Upload an Anime Video</h3>
-  <p>Drop your video here or <button type="button" class="browse-btn" id="browseBtn">browse from your computer</button>.
-  </p>
-  <div class="format-row">
-    <span>MP4</span>
-    <span>MKV</span>
-    <span>AVI</span>
-    <span>MOV</span>
-    <span>WebM</span>
-    <b>Maximum file size: 2 GB</b>
+    <aside class="episode-panel">
+      <div class="episode-panel-head">
+        <div>
+          <span class="section-kicker">Episode details</span>
+          <h3>Metadata</h3>
+        </div>
+        <img src="{{ url_for('static', path='assets/frostmoon-emblem.svg') }}" alt="" aria-hidden="true">
+      </div>
+      <div class="form-group">
+        <label for="animeTitle">Anime Title *</label>
+        <input type="text" id="animeTitle" name="title" required placeholder="e.g. Classroom of the Elite">
+      </div>
+      <div class="form-split">
+        <div class="form-group">
+          <label for="animeSeason">Season *</label>
+          <input type="number" id="animeSeason" name="season" min="1" value="1" required>
+        </div>
+        <div class="form-group">
+          <label for="animeEpisode">Episode *</label>
+          <input type="number" id="animeEpisode" name="episode" min="1" value="1" required>
+        </div>
+      </div>
+      <div class="filename-card">
+        <span class="section-kicker">Target filename preview</span>
+        <div id="targetFilenamePreview" class="target-filename-preview"></div>
+      </div>
+      <div class="upload-note"><span>✦</span><p>Metadata stays attached to the processing job and is used throughout search, summaries, and the library.</p></div>
+    </aside>
   </div>
-
-  <!-- Target Canonical Format Preview -->
-  <div id="targetFilenamePreview" style="margin-top: 1rem; font-size: 0.9rem; color: #a5b4fc; font-family: monospace;">
-  </div>
-
-  <div id="filePreview" class="file-preview hidden"></div>
-  <div id="uploadProgress" class="upload-progress hidden" aria-live="polite">
-    <span class="spinner"></span>
-    <span id="uploadProgressText">Preparing ingestion...</span>
-  </div>
-  <button class="btn primary upload-submit" type="submit">Process Video →</button>
 </form>
 
-<section class="pipeline-card">
-  <div class="section-heading">
-    <span class="section-kicker">What happens next</span>
-    <h2>AI Processing Pipeline</h2>
-    <p>Your video moves through six transparent stages.</p>
+<section class="pipeline-card pipeline-showcase">
+  <div class="pipeline-head">
+    <div class="section-heading">
+      <span class="section-kicker">AI processing pipeline</span>
+      <h2>From episode to searchable knowledge.</h2>
+      <p>Your video moves through six visible processing stages.</p>
+    </div>
+    <span class="pipeline-emblem"><img src="{{ url_for('static', path='assets/frostmoon-emblem.svg') }}" alt="" aria-hidden="true"></span>
   </div>
   <div class="pipeline">
     {% for step in [
@@ -87,6 +94,4 @@
 </section>
 {% endblock %}
 
-{% block scripts %}
-<script src="{{ url_for('static', path='js/upload.js') }}"></script>
-{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', path='js/upload.js') }}"></script>{% endblock %}

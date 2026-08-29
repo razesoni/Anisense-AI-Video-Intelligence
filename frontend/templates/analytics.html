@@ -1,9 +1,41 @@
 {% extends "base.html" %}
 {% block title %}Analytics — AniSense AI{% endblock %}
 {% block eyebrow %}Analytics{% endblock %}
-{% block page_title %}Workspace Analytics{% endblock %}
+{% block page_title %}Analytics Overview{% endblock %}
 {% block content %}
-<section class="content-intro"><span class="pill soft">Workspace activity</span><h2>See how your library is growing.</h2><p>Processing and indexing totals are calculated from the videos currently available in your workspace.</p></section>
-<section class="stats-grid" id="analyticsStats"><article class="stat-card"><span>Videos Processed</span><strong data-stat="videos_processed">...</strong></article><article class="stat-card"><span>Total Duration</span><strong data-stat="total_duration">...</strong></article><article class="stat-card"><span>AI Summaries</span><strong data-stat="ai_summaries">...</strong></article><article class="stat-card"><span>Indexed Segments</span><strong data-stat="indexed_segments">...</strong></article></section>
+<section class="analytics-hero page-hero">
+  <img class="analytics-ornament" src="{{ url_for('static', path='assets/analytics-ornament.jpg') }}" alt="" aria-hidden="true">
+  <div class="analytics-crystal"><img src="{{ url_for('static', path='assets/crystal-accent.svg') }}" alt="" aria-hidden="true"></div>
+  <span class="pill soft">✦ Workspace intelligence</span>
+  <h2>See how your anime knowledge base is growing.</h2>
+  <p>Processing and indexing totals are calculated from the videos currently available in your workspace.</p>
+</section>
+
+<section class="stats-grid analytics-stats" id="analyticsStats">
+  <article class="stat-card"><div class="stat-icon violet"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3.5 9.5h17M9 3.5v17" stroke="currentColor" stroke-width="1.5"/></svg></div><span>Videos Processed</span><strong data-stat="videos_processed">...</strong><small>Available in your workspace</small></article>
+  <article class="stat-card"><div class="stat-icon blue"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.5"/><path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><span>Total Duration</span><strong data-stat="total_duration">...</strong><small>Combined processed runtime</small></article>
+  <article class="stat-card"><div class="stat-icon pink"><img src="{{ url_for('static', path='assets/feather-accent.svg') }}" alt=""></div><span>AI Summaries</span><strong data-stat="ai_summaries">...</strong><small>Generated episode intelligence</small></article>
+  <article class="stat-card"><div class="stat-icon green"><img src="{{ url_for('static', path='assets/frostmoon-emblem.svg') }}" alt=""></div><span>Indexed Segments</span><strong data-stat="indexed_segments">...</strong><small>Ready for semantic retrieval</small></article>
+</section>
+
+<section class="analytics-board">
+  <article class="analytics-panel trend-panel">
+    <div class="panel-title"><div><span class="section-kicker">Processing trend</span><h3>Library growth</h3></div><span class="panel-chip">Live workspace data</span></div>
+    <div class="chart-placeholder" id="processingTrendChart">
+      <span class="chart-grid"></span>
+      <div class="chart-empty"><img src="{{ url_for('static', path='assets/crystal-accent.svg') }}" alt=""><b>Trend visualization</b><small>Your analytics script can render processing history here when time-series data is available.</small></div>
+    </div>
+  </article>
+  <article class="analytics-panel status-panel">
+    <div class="panel-title"><div><span class="section-kicker">Pipeline state</span><h3>Videos by status</h3></div></div>
+    <div class="status-orbit" id="statusBreakdown"><div class="status-ring"><img src="{{ url_for('static', path='assets/frostmoon-emblem.svg') }}" alt=""><span>Workspace</span></div><div class="status-legend"><span><i class="ready-dot"></i>AI Ready</span><span><i class="processing-dot"></i>Processing</span><span><i class="neutral-dot"></i>Other</span></div></div>
+  </article>
+  <article class="analytics-panel activity-panel">
+    <div class="panel-title"><div><span class="section-kicker">Recent activity</span><h3>Processing events</h3></div></div>
+    <div class="activity-empty" id="recentActivity"><img src="{{ url_for('static', path='assets/columbina-icon.png') }}" alt=""><div><b>Activity stream ready</b><small>Connect backend event history here to show completed uploads, summaries, and indexing updates.</small></div></div>
+  </article>
+</section>
+
+<div class="analytics-quote"><span></span><p>“In the silence beyond the moon, knowledge reveals every truth.”</p><span></span></div>
 {% endblock %}
 {% block scripts %}<script src="{{ url_for('static', path='js/analytics.js') }}"></script>{% endblock %}

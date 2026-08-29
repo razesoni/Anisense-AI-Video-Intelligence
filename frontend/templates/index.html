@@ -1,78 +1,102 @@
 {% extends "base.html" %}
-{% block title %}AniSense AI — Anime Video Intelligence{% endblock %}
+{% block title %}AniSense AI — Frostmoon Anime Intelligence{% endblock %}
 {% block shell %}
-<div class="landing">
-  <header class="landing-nav">
+<div class="landing frost-home">
+  <header class="landing-nav frost-home-nav">
     <a class="brand" href="{{ url_for('index') }}">
-      <span class="brand-mark">✦</span>
-      <span><strong>AniSense AI</strong><small>AI Video Intelligence</small></span>
+      <span class="brand-mark frostmoon-mark"><img src="{{ url_for('static', path='assets/frostmoon-emblem.svg') }}" alt=""></span>
+      <span><strong>AniSense AI</strong><small>Nod Krai Intelligence</small></span>
     </a>
-    <div class="landing-links">
-      <a href="#features">Features</a>
+    <nav class="landing-links" aria-label="Landing navigation">
+      <a class="active" href="#home">Home</a>
+      <a href="{{ url_for('library') }}">Library</a>
+      <a href="{{ url_for('search') }}">Search</a>
+      <a href="{{ url_for('analytics') }}">Analytics</a>
       <a href="#workflow">How it works</a>
-      <a href="{{ url_for('dashboard') }}">Demo Dashboard</a>
+    </nav>
+    <div class="landing-nav-actions">
+      <a class="btn ghost" href="{{ url_for('dashboard') }}">Dashboard</a>
+      <a class="btn primary" href="{{ url_for('dashboard') }}">Get Started <span>✦</span></a>
     </div>
-    <a class="btn primary" href="{{ url_for('dashboard') }}">Start Analyzing <span>→</span></a>
   </header>
 
-  <section class="hero landing-hero">
-    <div class="hero-copy">
-      <span class="pill"><i></i> AI-powered video intelligence</span>
-      <h1>Turn anime videos into <em>searchable knowledge.</em></h1>
-      <p>AniSense AI transforms videos into searchable transcripts, intelligent summaries, key moments, and AI-powered insights.</p>
-      <div class="hero-actions">
-        <a class="btn primary large" href="{{ url_for('dashboard') }}">Start Analyzing <span>→</span></a>
-        <a class="btn ghost large" href="{{ url_for('search') }}">Explore Demo</a>
-      </div>
-      <div class="trust-row"><span>✦ Faster-Whisper</span><span>⌁ Semantic Search</span><span>◈ AI Summaries</span></div>
-    </div>
-    <div class="hero-visual">
-      <div class="columbina-hero-character">
-        <img src="{{ url_for('static', path='assets/columbina-avatar.png') }}" alt="Columbina">
-      </div>
-      <div class="hero-glow"></div>
-      <div class="dashboard-mock">
-        <div class="mock-sidebar"></div>
-        <div class="mock-content">
-          <div class="mock-top"><span></span><span></span><span></span></div>
-          <div class="mock-video">
-            <div class="play-circle">▶</div>
-            <div class="mock-time">12:43 / 24:13</div>
-          </div>
-          <div class="mock-grid">
-            <div class="mock-card"><small>AI SUMMARY</small><b>Commander reveals the hidden truth...</b><i></i><i></i><i></i></div>
-            <div class="mock-card search-mock"><small>SEMANTIC MATCH</small><strong>94%</strong><span>Wall origins and humanity</span></div>
-          </div>
+  <main id="home">
+    <section class="frost-home-hero">
+      <div class="frost-home-copy">
+        <span class="frost-eyebrow"><span>✦</span> Frostmoon Intelligence <span>✦</span></span>
+        <h1>ANI<span>✦</span>SENSE AI</h1>
+        <h2>AI-powered anime video intelligence</h2>
+        <p>Transform every episode into searchable knowledge with transcription, scene understanding, concise summaries, semantic indexing, and precise timestamp navigation.</p>
+        <div class="hero-actions">
+          <a class="btn primary large" href="{{ url_for('dashboard') }}">Start Analyzing <span>✦</span></a>
+          <a class="btn ghost large" href="{{ url_for('library') }}">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true"><path d="M4 5.5c3.2-.9 5.8-.4 8 1.5v12c-2.2-1.9-4.8-2.4-8-1.5v-12Zm16 0c-3.2-.9-5.8-.4-8 1.5v12c2.2-1.9 4.8-2.4 8-1.5v-12Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+            Explore Library
+          </a>
+        </div>
+        <div class="frost-capability-row" aria-label="Core capabilities">
+          <span><i>⌁</i> AI Transcription</span>
+          <span><i>✦</i> Scene Understanding</span>
+          <span><i>◇</i> Smart Indexing</span>
+          <span><i>⌕</i> Instant Search</span>
         </div>
       </div>
-      <span class="petal p1">✦</span><span class="petal p2">✧</span><span class="petal p3">·</span>
-    </div>
-  </section>
+      <div class="frost-home-moon-art" aria-hidden="true">
+        <img src="{{ url_for('static', path='assets/columbina-sleeping-moon.png') }}" alt="">
+      </div>
+      <div class="frost-home-visual" aria-hidden="true">
+        <span class="floating-crystal c1"><img src="{{ url_for('static', path='assets/crystal-accent.svg') }}" alt=""></span>
+        <span class="floating-crystal c2"><img src="{{ url_for('static', path='assets/crystal-accent.svg') }}" alt=""></span>
+      </div>
+    </section>
 
-  <section class="feature-strip" id="features">
-    <div><span>⌕</span><h3>Search Every Moment</h3><p>Ask natural-language questions and jump directly to the answer.</p></div>
-    <div><span>✦</span><h3>Understand Episodes</h3><p>Generate concise summaries, key events, topics and insights.</p></div>
-    <div><span>◷</span><h3>Navigate by Timestamp</h3><p>Move from transcript to the exact scene in seconds.</p></div>
-  </section>
+    <section class="frost-feature-grid" id="features">
+      <a href="{{ url_for('search') }}" class="frost-feature-card">
+        <span class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="1.5"/><path d="M20 20l-4.7-4.7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="m10.5 7 .7 1.8L13 9.5l-1.8.7-.7 1.8-.7-1.8L8 9.5l1.8-.7.7-1.8Z" fill="currentColor"/></svg>
+        </span>
+        <div><h3>Search Every Moment</h3><p>Find dialogue, scenes, or ideas instantly with semantic search across your anime library.</p><small>Explore search →</small></div>
+        <img class="feature-feather" src="{{ url_for('static', path='assets/feather-accent.svg') }}" alt="">
+      </a>
+      <a href="{{ url_for('summaries') }}" class="frost-feature-card">
+        <span class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l1.7 4.4L18 9l-3.9 2.5 1.2 4.5-3.3-2.6L8.7 16l1.2-4.5L6 9l4.3-1.6L12 3Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><circle cx="17.7" cy="16.8" r="2.8" stroke="currentColor" stroke-width="1.3"/></svg>
+        </span>
+        <div><h3>Understand Episodes</h3><p>Review AI-generated summaries, key moments, topics, and useful episode-level insights.</p><small>Open summaries →</small></div>
+        <img class="feature-feather" src="{{ url_for('static', path='assets/feather-accent.svg') }}" alt="">
+      </a>
+      <a href="{{ url_for('library') }}" class="frost-feature-card">
+        <span class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="5" width="16" height="13" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="m10 9 5 2.5-5 2.5V9Z" fill="currentColor"/><path d="M7 21h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </span>
+        <div><h3>Navigate by Timestamp</h3><p>Move from transcript to the exact scene with precise timestamps and interactive playback.</p><small>Browse library →</small></div>
+        <img class="feature-feather" src="{{ url_for('static', path='assets/feather-accent.svg') }}" alt="">
+      </a>
+    </section>
 
-  <section class="landing-section" id="workflow">
-    <div class="section-heading centered">
-      <span class="section-kicker">From video to knowledge</span>
-      <h2>A complete intelligence layer for your anime library.</h2>
-      <p>Upload once. Process automatically. Search and understand forever.</p>
-    </div>
-    <div class="workflow">
-      <div><span>01</span><b>Upload</b><small>Video validation</small></div>
-      <div><span>02</span><b>Transcribe</b><small>Faster-Whisper</small></div>
-      <div><span>03</span><b>Understand</b><small>AI summary</small></div>
-      <div><span>04</span><b>Index</b><small>Vector search</small></div>
-      <div><span>05</span><b>Explore</b><small>Search & watch</small></div>
-    </div>
-  </section>
+    <section class="frost-workflow" id="workflow">
+      <div class="workflow-title"><span></span><b>From Video to Knowledge in 5 Steps</b><span></span></div>
+      <div class="frost-workflow-track">
+        <div class="frost-workflow-step"><i>01</i><span class="workflow-icon">⇧</span><div><b>Upload</b><small>Validate your anime video securely.</small></div></div>
+        <div class="frost-workflow-step"><i>02</i><span class="workflow-icon">≋</span><div><b>Transcribe</b><small>Convert dialogue into searchable text.</small></div></div>
+        <div class="frost-workflow-step"><i>03</i><span class="workflow-icon">✦</span><div><b>Understand</b><small>Generate summaries and scene insights.</small></div></div>
+        <div class="frost-workflow-step"><i>04</i><span class="workflow-icon">◇</span><div><b>Index</b><small>Create semantic knowledge segments.</small></div></div>
+        <div class="frost-workflow-step"><i>05</i><span class="workflow-icon">⌁</span><div><b>Explore</b><small>Search, watch, and rediscover moments.</small></div></div>
+      </div>
+    </section>
 
-  <footer class="landing-footer">
-    <div class="brand"><span class="brand-mark">✦</span><span><strong>AniSense AI</strong><small>AI Video Intelligence</small></span></div>
-    <span>Built as a portfolio-ready AI product experience.</span>
+    <section class="frost-home-footer-strip" aria-label="Product strengths">
+      <div><img src="{{ url_for('static', path='assets/feather-accent.svg') }}" alt=""><span><b>Local-friendly</b><small>Designed for practical AI workflows</small></span></div>
+      <div><img src="{{ url_for('static', path='assets/crystal-accent.svg') }}" alt=""><span><b>Semantic Search</b><small>Meaning-aware episode discovery</small></span></div>
+      <div><img src="{{ url_for('static', path='assets/frostmoon-emblem.svg') }}" alt=""><span><b>AI Summaries</b><small>Episode intelligence at a glance</small></span></div>
+      <div><span class="moon-orb">◔</span><span><b>Timestamp Ready</b><small>Jump directly to important scenes</small></span></div>
+      <blockquote>“In the silence beyond the moon, knowledge reveals every truth.” <cite>— AniSense AI</cite></blockquote>
+    </section>
+  </main>
+
+  <footer class="landing-footer frost-home-footer">
+    <div class="brand"><span class="brand-mark"><img src="{{ url_for('static', path='assets/frostmoon-emblem.svg') }}" alt=""></span><span><strong>AniSense AI</strong><small>Nod Krai Intelligence</small></span></div>
+    <span>Anime video intelligence, reimagined through the Frostmoon.</span>
   </footer>
 </div>
 {% endblock %}

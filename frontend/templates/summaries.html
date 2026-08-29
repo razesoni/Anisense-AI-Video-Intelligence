@@ -1,14 +1,56 @@
 {% extends "base.html" %}
 {% block title %}AI Summaries — AniSense AI{% endblock %}
-{% block eyebrow %}AI Summaries{% endblock %}
-{% block page_title %}Episode Intelligence{% endblock %}
+{% block eyebrow %}Frostmoon Intelligence{% endblock %}
+{% block page_title %}AI Summaries{% endblock %}
 {% block content %}
-<section class="content-intro"><span class="pill soft">Generated intelligence</span><h2>Summaries from your processed videos.</h2><p>Open an episode to review its overview, key moments and topics.</p></section>
-<section class="video-grid" id="summaryGrid">
-{% for video in videos if video.summary %}
-<article class="video-card"><a class="thumbnail thumb-{{ video.thumbnail }}" href="{{ url_for('summary', video_id=video.id) }}"><span class="play-overlay">✦</span><span class="duration">{{ video.duration }}</span></a><div class="video-info"><div><h3>{{ video.title }}</h3><p>{{ video.episode }}</p></div><span class="status ready">AI Ready</span></div><div class="card-actions"><a href="{{ url_for('summary', video_id=video.id) }}">Open Summary</a></div></article>
-{% else %}
-<div class="empty-state"><div>✦</div><h3>No summaries yet</h3><p>Process a video to generate its AI summary.</p><a class="btn primary" href="{{ url_for('upload') }}">Upload Video</a></div>
-{% endfor %}
+{% set summary_videos = videos | selectattr('summary') | list %}
+<section class="summary-vault-hero">
+  <div>
+    <span class="frost-eyebrow"><span>✦</span> Generated Intelligence <span>✦</span></span>
+    <h2>AI Summaries</h2>
+    <p>Explore episode intelligence, key moments, and AI-generated insights from every processed anime video.</p>
+  </div>
+  <img src="{{ url_for('static', path='assets/columbina-portrait-bust.jpg') }}" alt="" class="summary-hero-character">
 </section>
+
+{% if summary_videos %}
+<div class="summary-workspace">
+  <aside class="summary-library-panel">
+    <div class="summary-panel-heading"><div><span class="section-kicker">Summary Library</span><h3>{{ summary_videos|length }} available</h3></div><img src="{{ url_for('static', path='assets/frostmoon-emblem.svg') }}" alt=""></div>
+    <div class="summary-library-list">
+      {% for video in summary_videos %}
+      <a class="summary-list-item {% if loop.first %}featured{% endif %}" href="{{ url_for('summary', video_id=video.id) }}">
+        <span class="summary-thumb thumb-{{ video.thumbnail }}"><i>✦</i><small>{{ video.duration }}</small></span>
+        <span class="summary-list-copy"><b>{{ video.title }}</b><small>{{ video.episode }}</small><em>{% if video.segments %}{{ video.segments }} indexed segments{% else %}AI episode intelligence{% endif %}</em></span>
+        <span class="status ready">AI Ready</span>
+      </a>
+      {% endfor %}
+    </div>
+  </aside>
+
+  {% set featured = summary_videos[0] %}
+  <section class="summary-featured-panel">
+    <div class="summary-featured-top">
+      <div><span class="section-kicker">Featured Summary</span><h2>{{ featured.title }} <small>{{ featured.episode }}</small></h2><p><span>◷ {{ featured.duration }}</span><span>⌁ {{ featured.segments }} segments</span><span>✦ AI Ready</span></p></div>
+      <a class="btn primary" href="{{ url_for('summary', video_id=featured.id) }}">Open Full Summary ↗</a>
+    </div>
+
+    <div class="summary-intelligence-grid">
+      <article class="summary-intelligence-card wide"><span class="section-kicker">Executive Summary</span><h3>Understand the episode at a glance</h3><p>Open the full intelligence report for the AI-generated overview of {{ featured.title }}, including the most important story developments and context.</p><a href="{{ url_for('summary', video_id=featured.id) }}">Read executive summary →</a></article>
+      <article class="summary-intelligence-card"><span class="section-kicker">Topics</span><div class="tag-list"><span>Overview</span><span>Key Moments</span><span>Episode Themes</span><span>Scene Context</span></div></article>
+      <article class="summary-intelligence-card tone-card"><span class="section-kicker">Intelligence Map</span><div class="tone-line"><i></i><i></i><i></i><i></i><i></i><i></i></div><small>AI-generated episode structure becomes available in the full report.</small></article>
+      <article class="summary-intelligence-card"><span class="section-kicker">Key Events</span><ul class="summary-capability-list"><li><i>✦</i> Important scene timeline</li><li><i>✦</i> Timestamped story moments</li><li><i>✦</i> Direct video navigation</li></ul></article>
+      <article class="summary-intelligence-card"><span class="section-kicker">AI Insights</span><ul class="summary-capability-list"><li><i>◇</i> Main themes and conflicts</li><li><i>◇</i> Character development</li><li><i>◇</i> Emotional context</li></ul></article>
+    </div>
+
+    <div class="summary-assistant-bar">
+      <img src="{{ url_for('static', path='assets/columbina-avatar.png') }}" alt="" class="summary-assistant-avatar">
+      <div><b>Columbina Intelligence Guide</b><small>Continue exploring this episode through semantic search.</small></div>
+      <a class="btn primary" href="{{ url_for('search') }}">Ask in Search ✦</a>
+    </div>
+  </section>
+</div>
+{% else %}
+<div class="empty-state summary-empty"><img src="{{ url_for('static', path='assets/frostmoon-emblem.svg') }}" alt=""><h3>No summaries yet</h3><p>Process a video to generate its AI summary and episode intelligence.</p><a class="btn primary" href="{{ url_for('upload') }}">Upload Video</a></div>
+{% endif %}
 {% endblock %}

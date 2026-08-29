@@ -16,44 +16,82 @@
   <div class="app-shell">
     <aside class="sidebar" id="sidebar">
       <a class="brand" href="{{ url_for('dashboard') }}">
-        <span class="brand-mark character-mark"><img src="{{ url_for('static', path='assets/columbina-icon.png') }}" alt="Columbina"></span>
+        <span class="brand-mark frostmoon-mark">
+          <img src="{{ url_for('static', path='assets/frostmoon-emblem.svg') }}" alt="">
+        </span>
         <span>
           <strong>AniSense AI</strong>
-          <small>AI Video Intelligence</small>
+          <small>Nod Krai Intelligence</small>
         </span>
       </a>
 
       <nav class="nav-section" aria-label="Primary navigation">
         <span class="nav-label">Workspace</span>
-        <a class="nav-link {% if request.url.path == '/dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}">⌂ <span>Dashboard</span></a>
-        <a class="nav-link {% if request.url.path == '/upload' %}active{% endif %}" href="{{ url_for('upload') }}">🎬 <span>Videos</span></a>
-        <a class="nav-link {% if request.url.path == '/search' %}active{% endif %}" href="{{ url_for('search') }}">⌕ <span>Intelligent Search</span></a>
-        <a class="nav-link {% if '/summary' in request.url.path %}active{% endif %}" href="{{ url_for('summaries') }}">✦ <span>AI Summaries</span></a>
-        <a class="nav-link {% if request.url.path == '/library' %}active{% endif %}" href="{{ url_for('library') }}">▣ <span>Library</span></a>
-        <a class="nav-link {% if request.url.path == '/analytics' %}active{% endif %}" href="{{ url_for('analytics') }}">◔ <span>Analytics</span></a>
+        <a class="nav-link {% if request.url.path == '/dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9a1 1 0 0 0 1 1H10v-5.5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1V20h3.5a1 1 0 0 0 1-1v-9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Dashboard</span>
+        </a>
+        <a class="nav-link {% if request.url.path == '/upload' %}active{% endif %}" href="{{ url_for('upload') }}">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="6" width="14" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M17 10.5 21 8v8l-4-2.5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          <span>Videos</span>
+        </a>
+        <a class="nav-link {% if request.url.path == '/search' %}active{% endif %}" href="{{ url_for('search') }}">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="1.6"/><path d="M20 20l-4.8-4.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <span>Intelligent Search</span>
+        </a>
+        <a class="nav-link {% if '/summary' in request.url.path %}active{% endif %}" href="{{ url_for('summaries') }}">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l1.9 4.9L19 9.8l-4.6 3 1.4 5.2-3.8-3-3.8 3 1.4-5.2L5 9.8l5.1-1.9L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+          <span>AI Summaries</span>
+        </a>
+        <a class="nav-link {% if request.url.path == '/library' %}active{% endif %}" href="{{ url_for('library') }}">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.4" stroke="currentColor" stroke-width="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.4" stroke="currentColor" stroke-width="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.4" stroke="currentColor" stroke-width="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.4" stroke="currentColor" stroke-width="1.6"/></svg>
+          <span>Library</span>
+        </a>
+        <a class="nav-link {% if request.url.path == '/analytics' %}active{% endif %}" href="{{ url_for('analytics') }}">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 20V10M11 20V4M18 20v-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <span>Analytics</span>
+        </a>
       </nav>
 
       <nav class="nav-section secondary" aria-label="Secondary navigation">
         <span class="nav-label">More</span>
-        <a class="nav-link" href="{{ url_for('library') }}">◷ <span>Recent Videos</span></a>
-        <a class="nav-link" href="#">⚙ <span>Settings</span></a>
-        <a class="nav-link" href="#">? <span>Help & Documentation</span></a>
+        <a class="nav-link" href="{{ url_for('library') }}">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.6"/><path d="M12 8v4.5l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Recent Videos</span>
+        </a>
+        <a class="nav-link" href="#">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M19.4 13.5a7.9 7.9 0 0 0 0-3l2-1.5-2-3.4-2.4.7a7.7 7.7 0 0 0-2.6-1.5L14 2h-4l-.4 2.3a7.7 7.7 0 0 0-2.6 1.5l-2.4-.7-2 3.4 2 1.5a7.9 7.9 0 0 0 0 3l-2 1.5 2 3.4 2.4-.7a7.7 7.7 0 0 0 2.6 1.5L10 22h4l.4-2.3a7.7 7.7 0 0 0 2.6-1.5l2.4.7 2-3.4-2-1.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+          <span>Settings</span>
+        </a>
+        <a class="nav-link" href="#">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M9.5 9.2a2.5 2.5 0 1 1 3.7 2.2c-.9.5-1.2 1-1.2 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="16.6" r="0.9" fill="currentColor"/></svg>
+          <span>Help & Documentation</span>
+        </a>
       </nav>
 
+      <div class="sidebar-frost-card" aria-hidden="true">
+        <img src="{{ url_for('static', path='assets/columbina-icon.png') }}" alt="">
+        <div><strong>Frostmoon Archive</strong><span>Your knowledge, illuminated.</span></div>
+      </div>
+
       <div class="profile-card">
-        <div class="avatar character-avatar"><img src="{{ url_for('static', path='assets/columbina-icon.png') }}" alt="Columbina"></div>
+        <div class="avatar user-avatar" aria-hidden="true">AK</div>
         <div>
           <strong>Akash Kumar</strong>
           <span>Data Science Project</span>
         </div>
-        <button class="icon-btn" aria-label="Profile options">•••</button>
+        <button class="icon-btn" aria-label="Profile options">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" aria-hidden="true"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg>
+        </button>
       </div>
     </aside>
 
     <main class="main">
       <header class="topbar">
         <div class="topbar-left">
-          <button class="mobile-menu icon-btn" id="menuToggle" aria-label="Open navigation">☰</button>
+          <button class="mobile-menu icon-btn" id="menuToggle" aria-label="Open navigation">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          </button>
           <div>
             <p class="eyebrow">{% block eyebrow %}AI Video Intelligence{% endblock %}</p>
             <h1>{% block page_title %}Anime Video Intelligence{% endblock %}</h1>
@@ -61,15 +99,27 @@
         </div>
         <div class="top-actions">
           <button class="search-shortcut" data-open-search aria-label="Open global search">
-            <span>⌕</span> Search <kbd>Ctrl K</kbd>
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="1.7"/><path d="M20 20l-4.8-4.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            Search <kbd>Ctrl K</kbd>
           </button>
-          <button class="icon-btn notification" aria-label="Notifications">♢<i></i></button>
-          <button class="icon-btn theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">☾</button>
-          <div class="avatar small character-avatar"><img src="{{ url_for('static', path='assets/columbina-icon.png') }}" alt="Columbina"></div>
+          <button class="icon-btn notification" aria-label="Notifications">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" aria-hidden="true"><path d="M6 9.5a6 6 0 0 1 12 0c0 4.2 1.4 5.6 2 6.5H4c.6-.9 2-2.3 2-6.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9.5 19a2.5 2.5 0 0 0 5 0" stroke="currentColor" stroke-width="1.5"/></svg>
+            <i></i>
+          </button>
+          <button class="icon-btn theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true"><path d="M20 14.2A8.5 8.5 0 1 1 9.8 4a6.6 6.6 0 0 0 10.2 10.2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="avatar small user-avatar" aria-hidden="true">AK</div>
         </div>
       </header>
 
-      <div class="anime-atmosphere" aria-hidden="true"></div>
+      <div class="anime-atmosphere" aria-hidden="true">
+        <span class="atmo-star s1">✦</span>
+        <span class="atmo-star s2">✧</span>
+        <span class="atmo-star s3">·</span>
+        <span class="atmo-star s4">✦</span>
+        <span class="atmo-star s5">·</span>
+      </div>
       <div class="page">
         {% block content %}{% endblock %}
       </div>
@@ -77,16 +127,16 @@
   </div>
 
   <nav class="mobile-nav">
-    <a href="{{ url_for('dashboard') }}">⌂<span>Home</span></a>
-    <a href="{{ url_for('library') }}">▣<span>Library</span></a>
-    <a href="{{ url_for('search') }}">⌕<span>Search</span></a>
-    <a href="{{ url_for('upload') }}">＋<span>Upload</span></a>
+    <a href="{{ url_for('dashboard') }}"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9a1 1 0 0 0 1 1H10v-5.5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1V20h3.5a1 1 0 0 0 1-1v-9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Home</span></a>
+    <a href="{{ url_for('library') }}"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.4" stroke="currentColor" stroke-width="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.4" stroke="currentColor" stroke-width="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.4" stroke="currentColor" stroke-width="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.4" stroke="currentColor" stroke-width="1.6"/></svg><span>Library</span></a>
+    <a href="{{ url_for('search') }}"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="1.6"/><path d="M20 20l-4.8-4.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Search</span></a>
+    <a href="{{ url_for('upload') }}"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span>Upload</span></a>
   </nav>
 
   <div class="global-search" id="globalSearch" aria-hidden="true">
     <div class="search-modal">
       <button class="modal-close icon-btn" data-close-search>×</button>
-      <span class="modal-kicker">AI semantic search</span>
+      <span class="modal-kicker">✦ AI semantic search</span>
       <h2>Search your anime knowledge</h2>
       <form action="{{ url_for('search') }}" class="global-search-form">
         <input name="q" autofocus placeholder="Try “When does the protagonist discover the secret?”">
