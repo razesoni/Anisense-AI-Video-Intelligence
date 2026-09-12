@@ -24,3 +24,20 @@ logs/
 # Python
 __pycache__/
 *.pyc
+# Local development and generated caches
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.virtual_documents/
+anaconda_projects/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Regenerate indexes from source media
+/data/vector_store/
