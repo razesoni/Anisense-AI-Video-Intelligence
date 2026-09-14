@@ -42,4 +42,4 @@ htmlcov/
 # Regenerate indexes from source media
 /data/vector_store/
 
-/frontend/assets/
+/frontend/static/assets/
