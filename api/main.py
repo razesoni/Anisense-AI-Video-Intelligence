@@ -32,6 +32,7 @@ TEMPLATES_DIR = BASE_DIR / "frontend" / "templates"
 
 # Mount static files and Jinja2 templates
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+RAW_VIDEO_DIR.mkdir(parents=True, exist_ok=True)
 app.mount("/media", StaticFiles(directory=str(RAW_VIDEO_DIR)), name="media")
 templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
 
