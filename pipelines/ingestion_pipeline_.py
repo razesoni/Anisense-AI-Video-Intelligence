@@ -1,8 +1,3 @@
-from _pytest import pytester_assertions
-from _pytest import pytester_assertions
-from _pytest import pytester_assertions
-from _pytest import pytester_assertions
-from _pytest import pytester_assertions
 import json
 from pathlib import Path
 from config.settings import (
