@@ -6,7 +6,6 @@ class AudioTranscriber:
     def __init__(self, settings, transcript_dir):
         self.provider = getattr(settings, "transcription_provider").lower()
         self.api_key = getattr(settings, "groq_api_key", None)
-        self.client = Groq(api_key=self.api_key) if self.api_key else Groq()
         self.model_name = getattr(settings, "groq_model", "whisper-large-v3")
         self.transcripts_dir = Path(transcript_dir)
 
@@ -27,8 +26,9 @@ class AudioTranscriber:
             
 
     def _transcribe_groq(self, audio_file):
+        client = Groq(api_key=self.api_key) if self.api_key else Groq()
         with open(audio_file, "rb") as file:
-            response = self.client.audio.transcriptions.create(
+            response = client.audio.transcriptions.create(
                 file=(audio_file.name, file.read()),
                 model=self.model_name,
                 language="en",
