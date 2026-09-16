@@ -17,20 +17,19 @@ CLEANED_TRANSCRIPTS = TRANSCRIPTS_DIR / "cleaned"
 class Settings(BaseSettings):
     
     # LLM Settings
-    OLLAMA_HOST: str | None = "http://localhost:11434"
-    OLLAMA_MODEL: str | None = "qwen3:4b"
-    SUMMARY_PROVIDER: str = "ollama"
+    SUMMARY_PROVIDER: str = "gemini" 
     GEMINI_API_KEY: str | None = None
     GEMINI_MODEL: str = "gemini-2.5-flash"
     summary_think: bool = False
     summary_max_words: int = 6000
     summary_num_predict: int = 2048
 
-    # Whisper Settings
-    whisper_model: str = "base"
-    whisper_device: str = "cpu"
-    whisper_compute_type: str = "int8"
-    
+    # groq Settings
+    groq_api_key: str | None = None
+    transcription_provider: str = "groq"
+    groq_model: str = "whisper-large-v3"
+
+    # Embedding Settings
     embedding_model: str = (
         "sentence-transformers/all-MiniLM-L6-v2"
     )

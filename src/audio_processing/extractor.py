@@ -32,7 +32,7 @@ class AudioExtractor:
                 # MP3 codec
                 "-c:a", "libmp3lame",
                 # Audio quality
-                "-b:a", "192k",
+                "-b:a", "64k",
                 # Mono
                 "-ac", str(self.audio_channels),
                 # Sample rate

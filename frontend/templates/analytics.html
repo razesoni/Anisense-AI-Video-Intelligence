@@ -28,11 +28,11 @@
   </article>
   <article class="analytics-panel status-panel">
     <div class="panel-title"><div><span class="section-kicker">Pipeline state</span><h3>Videos by status</h3></div></div>
-    <div class="status-orbit" id="statusBreakdown"><div class="status-ring"><img src="{{ url_for('static', path='assets/frostmoon-emblem.svg') }}" alt=""><span>Workspace</span></div><div class="status-legend"><span><i class="ready-dot"></i>AI Ready</span><span><i class="processing-dot"></i>Processing</span><span><i class="neutral-dot"></i>Other</span></div></div>
+    <div class="status-orbit" id="statusBreakdown"><div class="status-ring"><img src="{{ url_for('static', path='assets/frostmoon-emblem.svg') }}" alt=""><span>Workspace</span></div><div class="status-legend"><span><i class="ready-dot"></i>AI Ready <b class="ready-count">0</b></span><span><i class="processing-dot"></i>Processing <b class="processing-count">0</b></span><span><i class="neutral-dot"></i>Other <b class="other-count">0</b></span></div></div>
   </article>
   <article class="analytics-panel activity-panel">
     <div class="panel-title"><div><span class="section-kicker">Recent activity</span><h3>Processing events</h3></div></div>
-    <div class="activity-empty" id="recentActivity"><img src="{{ url_for('static', path='assets/columbina-icon.png') }}" alt=""><div><b>Activity stream ready</b><small>Connect backend event history here to show completed uploads, summaries, and indexing updates.</small></div></div>
+    <div class="activity-empty" id="recentActivity"><img src="{{ url_for('static', path='assets/columbina-icon.png') }}" alt=""><div><b>Loading activity</b><small>Reading the latest workspace processing state.</small></div></div>
   </article>
 </section>
 
